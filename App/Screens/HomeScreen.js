@@ -82,7 +82,7 @@ function Home({ navigation }) {
                 </View>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.card}>
+            <TouchableOpacity onPress={() => { navigation.navigate("GroupList") }} style={styles.card}>
                 <View style={styles.cardContent}>
                     <View style={{ flex: 1 }}>
                         <View style={styles.sectionTitleRow}>
