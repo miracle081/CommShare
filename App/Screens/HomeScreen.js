@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, TouchableOpacity, FlatList, Image } from 'react
 import { Theme } from "../Components/Theme";
 import { FontAwesome } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
+import { Profile } from './Profile';
+import GroupList from './GroupList';
 
 const recentTransactions = [
     {
@@ -36,7 +38,7 @@ const totalTransactions = 24;
 const totalAmount = "₦1,156,800,400";
 const joinedEstates = 3;
 
-export function HomeScreen({ navigation }) {
+function Home({ navigation }) {
     return (
         <View style={styles.container}>
             <View style={styles.header}>
@@ -283,3 +285,12 @@ const styles = StyleSheet.create({
         color: Theme.colors.text2,
     },
 });
+
+const Tab = createBottomTabNavigator();
+export function HomeScreen() {
+    <Tab.Navigator screenOptions={{ headerShown: false }}>
+        <Tab.Screen name="Home" component={Home} />
+        <Tab.Screen name="Estates" component={GroupList} />
+        <Tab.Screen name="Profile" component={Profile} />
+    </Tab.Navigator>
+}
