@@ -1,290 +1,285 @@
-import React, { useState } from "react";
-import {
-    View,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    StyleSheet,
-    Image,
-    SafeAreaView,
-    ScrollView,
-    ImageBackground,
-    Alert,
-    KeyboardAvoidingView,
-    Platform,
-    Switch,
-} from "react-native";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import React from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, FlatList, Image } from 'react-native';
 import { Theme } from "../Components/Theme";
+import { FontAwesome } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 
-export function EditProfile({ navigation }) {
-    const [username, setUsername] = useState("");
-    const [email, setEmail] = useState("");
-    const [mobile, setMobile] = useState("");
-    const [dob, setDob] = useState("");
-    const [bio, setBio] = useState("");
-    const [isYes, setIsYes] = useState(false);
-    const [isNo, setIsNo] = useState(false);
+const recentTransactions = [
+    {
+        id: '1',
+        estate: 'Green Valley Estate',
+        service: 'Security Fee',
+        amount: '₦15,000',
+        date: 'Today, 10:45 AM',
+        icon: 'shield'
+    },
+    {
+        id: '2',
+        estate: 'Sunrise Apartments',
+        service: 'Maintenance',
+        amount: '₦8,500',
+        date: 'Yesterday, 2:30 PM',
+        icon: 'wrench'
+    },
+    {
+        id: '3',
+        estate: 'Sunrise Apartments',
+        service: 'Electricity Bill',
+        amount: '₦12,000',
+        date: 'Oct 12, 9:15 AM',
+        icon: 'bolt'
+    },
+];
 
-    const handleEditProfile = () => {
-        if (!username || !email || (!isYes && !isNo)) {
-            Alert.alert("Missing Info", "Please fill in all required fields.");
-            return;
-        }
+const username = "John Doe";
+const totalTransactions = 24;
+const totalAmount = "₦1,156,800,400";
+const joinedEstates = 3;
 
-        Alert.alert("Success", "Profile details changed.");
-        setUsername("");
-        setEmail("");
-        setMobile("");
-        setDob("");
-        setBio("");
-        navigation.goBack();
-    };
-
-    const TopBackGroundUri =
-        "https://images.pexels.com/photos/517883/pexels-photo-517883.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
-
-    const profilePicUri =
-        "http://thispix.com/wp-content/uploads/2015/06/passport-010.jpg";
-
+export function HomeScreen({ navigation }) {
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: "#f8f8f8" }}>
-            <KeyboardAvoidingView
-                style={{ flex: 1 }}
-                behavior={Platform.OS === "ios" ? "padding" : "height"}
-            >
-                <ScrollView>
-                    <ImageBackground
-                        source={{ uri: TopBackGroundUri }}
-                        style={styles.header}
-                    >
-                        <TouchableOpacity
-                            onPress={() => navigation.goBack()}
-                            style={styles.backIcon}
-                        >
-                            <Icon name="arrow-left" size={24} color={Theme.colors.yellow} />
-                        </TouchableOpacity>
-
-                        <Image source={{ uri: profilePicUri }} style={styles.profilePic} />
-                        <TouchableOpacity
-                            style={styles.editIcon}
-                            onPress={() => Alert.alert("Edit Profile Picture")}
-                        >
-                            <Icon name="pencil" size={18} color="#fff" />
-                        </TouchableOpacity>
-                        <Text style={styles.userName}>Lacey Fernandez</Text>
-                    </ImageBackground>
-
-                    <View style={styles.formCard}>
-                        <Text style={styles.cardTitle}>EDIT USER PROFILE</Text>
-
-                        <View style={styles.inputContainer}>
-                            <Icon
-                                name="account"
-                                size={Theme.sizes.icon.md}
-                                color="#555"
-                                style={styles.inputIcon}
-                            />
-                            <TextInput
-                                placeholder="Enter User Name *"
-                                value={username}
-                                onChangeText={setUsername}
-                                placeholderTextColor="#888"
-                                style={[styles.input, styles.inputText]}
-                            />
-                        </View>
-
-                        <View style={styles.inputContainer}>
-                            <Icon
-                                name="email"
-                                size={Theme.sizes.icon.md}
-                                color="#555"
-                                style={styles.inputIcon}
-                            />
-                            <TextInput
-                                placeholder="Enter Email *"
-                                value={email}
-                                onChangeText={setEmail}
-                                keyboardType="email-address"
-                                autoCapitalize="none"
-                                placeholderTextColor="#888"
-                                style={[styles.input, styles.inputText]}
-                            />
-                        </View>
-
-                        <View style={styles.inputContainer}>
-                            <Icon
-                                name="cellphone"
-                                size={Theme.sizes.icon.md}
-                                color="#555"
-                                style={styles.inputIcon}
-                            />
-                            <TextInput
-                                placeholder="Enter your mobile number"
-                                value={mobile}
-                                onChangeText={setMobile}
-                                keyboardType="phone-pad"
-                                placeholderTextColor="#888"
-                                style={[styles.input, styles.inputText]}
-                            />
-                        </View>
-
-                        <View style={styles.inputContainer}>
-                            <Icon
-                                name="calendar"
-                                size={Theme.sizes.icon.md}
-                                color="#555"
-                                style={styles.inputIcon}
-                            />
-                            <TextInput
-                                placeholder="Bio"
-                                value={bio}
-                                onChangeText={setBio}
-                                multiline
-                                numberOfLines={3}
-                                style={[styles.input, styles.multilineInput]}
-                                placeholderTextColor="#888"
-                            />
-                        </View>
-
-                        <Text style={styles.label}>
-                            Let others see your mobile number ?
-                        </Text>
-                        <View style={styles.toggleRow}>
-                            <Text style={styles.genderLabel}>Yes</Text>
-                            <Switch
-                                value={isYes}
-                                onValueChange={(val) => {
-                                    setIsYes(val);
-                                    if (val) setIsNo(false);
-                                }}
-                            />
-                            <Text style={styles.genderLabel}>No</Text>
-                            <Switch
-                                value={isNo}
-                                onValueChange={(val) => {
-                                    setIsNo(val);
-                                    if (val) setIsYes(false);
-                                }}
-                            />
-                        </View>
-
-                        <TouchableOpacity
-                            style={styles.saveButton}
-                            onPress={handleEditProfile}
-                        >
-                            <Text style={styles.saveButtonText}>SAVE</Text>
-                        </TouchableOpacity>
+        <View style={styles.container}>
+            <View style={styles.header}>
+                <View style={styles.profileContainer}>
+                    <Image
+                        source={{ uri: 'https://randomuser.me/api/portraits/men/1.jpg' }}
+                        style={styles.profileImage}
+                    />
+                    <View>
+                        <Text style={styles.greetingText}>Hi, {username}</Text>
+                        <Text style={styles.welcomeText}>Welcome to Commshare</Text>
                     </View>
-                </ScrollView>
-            </KeyboardAvoidingView>
-        </SafeAreaView>
+                </View>
+                <TouchableOpacity style={styles.inboxIcon}>
+                    <FontAwesome name="inbox" size={24} color={Theme.colors.text1} />
+                </TouchableOpacity>
+            </View>
+
+            <TouchableOpacity style={styles.summaryCard}>
+                <Text style={styles.sectionHeader}>Transaction Summary</Text>
+                <View style={styles.summaryRow}>
+                    <View style={styles.summaryItem}>
+                        <Text style={styles.summaryNumber}>{totalTransactions}</Text>
+                        <Text style={styles.summaryLabel}>Total Transactions</Text>
+                    </View>
+                    <View style={styles.verticalDivider} />
+                    <View style={styles.summaryItem}>
+                        <Text style={styles.summaryNumber}>{totalAmount}</Text>
+                        <Text style={styles.summaryLabel}>Total Amount</Text>
+                    </View>
+                </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('CreatedEstates')}>
+                <View style={styles.cardContent}>
+                    <View>
+                        <Text style={styles.cardTitle}>Created Estate Groups</Text>
+                        <Text style={styles.cardSubtext}>Manage or create estate groups</Text>
+                    </View>
+                    <MaterialIcons name="chevron-right" size={24} color={Theme.colors.text2} />
+                </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.card}>
+                <View style={styles.cardContent}>
+                    <View style={{ flex: 1 }}>
+                        <View style={styles.sectionTitleRow}>
+                            <Text style={styles.cardTitle}>Your Communities</Text>
+                            <Text style={styles.estateCount}>{joinedEstates}</Text>
+                        </View>
+                        <Text style={styles.cardSubtext}>Tap to view details</Text>
+                    </View>
+                    <MaterialIcons name="chevron-right" size={24} color={Theme.colors.text2} />
+                </View>
+            </TouchableOpacity>
+
+            <Text style={styles.sectionTitle}>Recent Transactions</Text>
+            <FlatList
+                scrollEnabled={false}
+                data={recentTransactions}
+                keyExtractor={(item) => item.id}
+                renderItem={({ item }) => (
+                    <View style={[styles.card, styles.transactionCard]}>
+                        <View style={styles.transactionIconContainer}>
+                            <FontAwesome name={item.icon} size={16} color={Theme.colors.primary} />
+                        </View>
+                        <View style={styles.transactionDetails}>
+                            <Text style={styles.estateName}>{item.estate}</Text>
+                            <Text style={styles.serviceName}>{item.service}</Text>
+                        </View>
+                        <View style={styles.transactionAmountDate}>
+                            <Text style={styles.amountText}>{item.amount}</Text>
+                            <Text style={styles.dateText}>{item.date}</Text>
+                        </View>
+                    </View>
+                )}
+            />
+        </View>
     );
-}
+};
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: Theme.colors.bg,
+        padding: 20,
+        paddingTop: 50,
+    },
     header: {
-        height: 270,
-        justifyContent: "center",
-        alignItems: "center",
-        paddingTop: 30,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 13,
     },
-    backIcon: {
-        position: "absolute",
-        top: 30,
-        left: 20,
-        padding: 10,
+    profileContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
     },
-    profilePic: {
-        width: 100,
-        height: 100,
-        borderRadius: 50,
-        borderWidth: 3,
-        borderColor: "#fff",
-    },
-    editIcon: {
-        position: "absolute",
-        top: 150,
-        right: 125,
-        backgroundColor: Theme.colors.yellow,
-        borderRadius: 20,
-        padding: 6,
-        elevation: 3,
-    },
-    userName: {
-        marginTop: 10,
-        fontSize: 18,
-        fontFamily: Theme.fonts.text700,
-        color: "#fff",
-    },
-    formCard: {
-        backgroundColor: "#fff",
-        marginHorizontal: 20,
-        marginTop: -40, // move it up to overlap the image
-        padding: 25,
-        borderRadius: 12,
-        shadowColor: "#000",
-        shadowOffset: { width: 0, height: 3 },
-        shadowOpacity: 0.1,
-        shadowRadius: 6,
-        elevation: 6,
-    },
-    cardTitle: {
-        fontSize: 20,
-        fontWeight: "700",
-        textAlign: "center",
-        marginBottom: 25,
-        color: Theme.colors.primary,
-    },
-    inputContainer: {
-        flexDirection: "row",
-        alignItems: "center",
-        backgroundColor: "#fafafa",
-        borderColor: "#ccc",
-        borderWidth: 1,
-        borderRadius: 6,
-        paddingHorizontal: 15,
-        marginBottom: 18,
-        minHeight: 40,
-    },
-    inputIcon: {
+    profileImage: {
+        width: 40,
+        height: 40,
+        borderRadius: 25,
         marginRight: 12,
     },
-    inputText: {
+    greetingText: {
+        fontSize: 15,
+        fontFamily: Theme.fonts.text600,
+        color: Theme.colors.text1,
+    },
+    welcomeText: {
+        fontSize: 14,
         fontFamily: Theme.fonts.text400,
-        flex: 1,
+        color: Theme.colors.text2,
     },
-    multilineInput: {
-        minHeight: 70,
-        textAlignVertical: "top",
-        flex: 1,
+    inboxIcon: {
+        padding: 8,
     },
-    label: {
+    card: {
+        backgroundColor: Theme.colors.layer,
+        borderRadius: 12,
+        padding: 16,
+        marginBottom: 11,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 3,
+    },
+    summaryCard: {
+        backgroundColor: Theme.colors.greenLight,
+        borderRadius: 12,
+        padding: 16,
+        marginBottom: 11,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 3,
+    },
+    sectionHeader: {
         fontSize: 16,
-        fontWeight: "600",
-        marginBottom: 6,
-        color: "#333",
+        fontFamily: Theme.fonts.text600,
+        color: Theme.colors.text1,
+        marginBottom: 4,
     },
-    toggleRow: {
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-around",
-        marginBottom: 20,
+    summaryRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
     },
-    genderLabel: {
-        fontSize: 16,
-        color: "#555",
+    summaryItem: {
+        alignItems: 'center',
+        flex: 0.48
     },
-    saveButton: {
-        backgroundColor: Theme.colors.primary,
-        paddingVertical: 11,
-        borderRadius: 8,
-        alignItems: "center",
-        marginTop: 5,
-    },
-    saveButtonText: {
-        color: "#fff",
-        fontSize: 16,
+    summaryNumber: {
+        fontSize: 17,
         fontFamily: Theme.fonts.text700,
+        color: Theme.colors.primary,
+        marginBottom: 4,
+    },
+    summaryLabel: {
+        fontSize: 14,
+        fontFamily: Theme.fonts.text400,
+        color: Theme.colors.text2,
+    },
+    verticalDivider: {
+        width: 1,
+        height: '80%',
+        backgroundColor: Theme.colors.line,
+        alignSelf: 'center',
+    },
+    cardContent: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    cardTitle: {
+        fontSize: 16,
+        fontFamily: Theme.fonts.text600,
+        color: Theme.colors.text1,
+        marginBottom: 4,
+    },
+    cardSubtext: {
+        fontSize: 14,
+        fontFamily: Theme.fonts.text400,
+        color: Theme.colors.text2,
+    },
+    sectionTitleRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    sectionTitle: {
+        fontSize: 17,
+        fontFamily: Theme.fonts.text600,
+        color: Theme.colors.text1,
+        marginBottom: 9,
+    },
+    estateCount: {
+        fontSize: 16,
+        fontFamily: Theme.fonts.text600,
+        color: Theme.colors.primary,
+        marginRight: Theme.sizes.xxl * 4,
+    },
+    transactionCard: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingVertical: 12,
+    },
+    transactionIconContainer: {
+        backgroundColor: 'rgba(72, 207, 173, 0.1)',
+        width: 40,
+        height: 40,
+        borderRadius: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginRight: 12,
+    },
+    transactionDetails: {
+        flex: 1,
+    },
+    estateName: {
+        fontSize: 16,
+        fontFamily: Theme.fonts.text600,
+        color: Theme.colors.text1,
+        marginBottom: 2,
+    },
+    serviceName: {
+        fontSize: 14,
+        fontFamily: Theme.fonts.text400,
+        color: Theme.colors.text2,
+    },
+    transactionAmountDate: {
+        alignItems: 'flex-end',
+    },
+    amountText: {
+        fontSize: 16,
+        fontFamily: Theme.fonts.text600,
+        color: Theme.colors.primary,
+        marginBottom: 2,
+    },
+    dateText: {
+        fontSize: 12,
+        fontFamily: Theme.fonts.text400,
+        color: Theme.colors.text2,
     },
 });
