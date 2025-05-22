@@ -1,17 +1,24 @@
 import React, { useState } from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView, SafeAreaView, TextInput, Modal } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView, SafeAreaView, TextInput, Modal, Dimensions } from 'react-native';
 import { Theme } from '../Components/Theme';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faAddressBook, faComment, faGear, faLanguage, faLocation, faLock, faPenToSquare, faRetweet, faSquarePlus, faThumbsUp, faUser, faUserXmark } from "@fortawesome/free-solid-svg-icons";
 import { AppButton } from '../Components/AppButton';
+import Carousel from 'react-native-reanimated-carousel';
 
-// import { Icon } from 'react-native-vector-icons/Icon';
 
+const carouselLinks = [
+    "https://img.freepik.com/free-photo/analog-landscape-city-with-buildings_23-2149661456.jpg?t=st=1747931856~exp=1747935456~hmac=b914d0e2ade5192add26c367c835c5d90ee3bc4de3dff3c1393c3ca5a78cb7d1&w=2000",
+    "https://img.freepik.com/free-photo/new-home-keys-plan-table-with-defocused-couple_23-2148814388.jpg?ga=GA1.1.1029325747.1747931890&semt=ais_hybrid&w=740",
+    "https://img.freepik.com/free-photo/bird-s-eye-view-shanghai_1127-4040.jpg?t=st=1747932294~exp=1747935894~hmac=42f2cb595e809b64e855317b1aa0a6e41314fc7bba4d02bb47788e755d2d61c6&w=2000",
+    "https://img.freepik.com/free-photo/city-sunset_1127-4143.jpg?ga=GA1.1.1029325747.1747931890&semt=ais_hybrid&w=740",
+]
 
-// // import { faThumbsUp } from "@fortawesome/free-solid-svg-icons/faThumbsUp";
+const { width, height } = Dimensions.get("screen")
 
 export function Profile() {
     const [visibility, setVisibility] = useState(false)
+
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: Theme.colors.primary }}>
@@ -66,6 +73,25 @@ export function Profile() {
                         </TouchableOpacity>
                     </View>
 
+                    <View style={{ marginVertical: 20 }}>
+                        <Carousel
+                            loop
+                            width={width - 40}
+                            height={170}
+                            autoPlay={true}
+                            data={carouselLinks}
+                            style={styles.carousel}
+                            scrollAnimationDuration={2000}
+                            renderItem={({ item }) => (
+                                <Image
+                                    style={{ height: 170, width: "100%", borderRadius: 15 }}
+                                    source={{ uri: item }}
+                                // defaultSource={require("../../assets/slide4.png")}
+                                />
+                            )}
+                        />
+                    </View>
+
                     <AppButton onPress={() => setVisibility(true)}
                         style={{ marginTop: 10, borderWidth: 1, borderColor: Theme.colors.red }}
                         textColor={Theme.colors.red}
@@ -100,7 +126,7 @@ const styles = StyleSheet.create({
         // alignItems: 'center',
         // paddingVertical: 40,
         backgroundColor: '#fff',
-        flex: 1,
+        // flex: 1,
     },
     header: {
         alignItems: 'center',

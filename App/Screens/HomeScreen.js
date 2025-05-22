@@ -72,7 +72,7 @@ function Home({ navigation }) {
                 </View>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.card} onPress={() => navigation.navigate('CreatedEstates')}>
+            <TouchableOpacity style={[styles.card, { marginTop: 10 }]} onPress={() => navigation.navigate('CreatedEstates')}>
                 <View style={styles.cardContent}>
                     <View>
                         <Text style={styles.cardTitle}>Created Estate Groups</Text>
@@ -95,7 +95,7 @@ function Home({ navigation }) {
                 </View>
             </TouchableOpacity>
 
-            <Text style={styles.sectionTitle}>Recent Transactions</Text>
+            <Text style={[styles.sectionTitle, { marginTop: 20 }]}>Recent Transactions</Text>
             <FlatList
                 scrollEnabled={false}
                 data={recentTransactions}
@@ -130,11 +130,11 @@ export function HomeScreen() {
                     let iconName;
 
                     if (route.name === 'Home') {
-                        iconName = focused ? 'home' : 'home-outline';
+                        iconName = focused ? 'speedometer' : 'speedometer-outline';
                     } else if (route.name === 'Assets') {
                         iconName = focused ? 'diamond' : 'diamond-outline';
-                    } else if (route.name === 'PeerToPeer') {
-                        iconName = focused ? 'swap-horizontal' : 'swap-horizontal-outline';
+                    } else if (route.name === 'Estates') {
+                        iconName = focused ? 'business' : 'business-outline';
                     } else if (route.name === 'ShareUnit') {
                         iconName = focused ? 'bar-chart' : 'bar-chart-outline';
                     } else if (route.name === 'Profile') {
@@ -148,9 +148,9 @@ export function HomeScreen() {
                 headerShown: false,
             })}
         >
-            <Tab.Screen name="Home" component={Home} />
+            <Tab.Screen name="Home" component={Home} options={{ title: "Dashboard" }} />
             <Tab.Screen name="Estates" component={GroupList} />
-            <Tab.Screen name="Profile" component={Profile} />
+            <Tab.Screen name="Profile" component={Profile} options={{ title: "Johnny" }} />
         </Tab.Navigator>
     )
 }

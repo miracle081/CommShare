@@ -43,7 +43,7 @@ const GroupList = ({ navigation, user }) => {
   const renderItem = ({ item }) => (
     <TouchableOpacity
       style={styles.itemContainer}
-      onPress={() => navigation.navigate('GroupChat', { groupId: item.id })}
+      onPress={() => navigation.navigate('Estate', { groupId: item.id })}
     >
       <Image source={require('../../assets/icon.png')} style={styles.avatar} />
       <View style={styles.textContainer}>
