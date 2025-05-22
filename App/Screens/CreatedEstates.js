@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, FlatList, Image } from 'react
 import { Theme } from "../Components/Theme";
 import { MaterialIcons } from '@expo/vector-icons';
 import { FontAwesome } from '@expo/vector-icons';
-import { goBack } from 'expo-router/build/global-state/routing';
+
 
 const yourEstateGroups = []; // { id: '1', name: 'Sunrise Apartments', members: 24 }
 
@@ -21,17 +21,17 @@ export function CreatedEstates({ navigation }) {
                     <Text style={styles.estateName}>{item.name}</Text>
                     <Text style={styles.estateMembers}>{item.members} members</Text>
                   </View>
-                  <MaterialIcons 
-                    name="chevron-right" 
-                    size={24} 
-                    color={Theme.colors.text2} 
+                  <MaterialIcons
+                    name="chevron-right"
+                    size={24}
+                    color={Theme.colors.text2}
                   />
                 </View>
               </TouchableOpacity>
             )}
             keyExtractor={(item) => item.id}
           />
-          <TouchableOpacity 
+          <TouchableOpacity
             style={styles.createButton}
             onPress={() => navigation.navigate('CreateEstate')}
           >
@@ -40,20 +40,20 @@ export function CreatedEstates({ navigation }) {
         </>
       ) : (
         <View style={styles.emptyState}>
-          <FontAwesome 
-            name="group" 
-            size={48} 
-            color={Theme.colors.text2} 
+          <FontAwesome
+            name="group"
+            size={48}
+            color={Theme.colors.text2}
             style={styles.emptyIcon}
           />
           <Text style={styles.emptyTitle}>No Created communities</Text>
-          <TouchableOpacity 
+          <TouchableOpacity
             style={styles.mainButton}
             onPress={() => navigation.navigate('CreateEstate')}
           >
             <Text style={styles.buttonText}>Create Your First</Text>
           </TouchableOpacity>
-          <TouchableOpacity 
+          <TouchableOpacity
             style={styles.goBackButton}
             onPress={() => navigation.goBack()}
           >
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       backgroundColor: Theme.colors.primary,
     },
-    goBackButton:{
+    goBackButton: {
       borderRadius: 12,
       paddingVertical: 16,
       paddingHorizontal: 24,

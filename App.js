@@ -5,7 +5,6 @@ import {
 } from "@expo-google-fonts/montserrat"
 import * as SplashScreen from "expo-splash-screen";
 import * as Font from "expo-font";
-import { Intro } from "./App/Screens/Intro";
 import { StackNavigator } from "./App/Navigator/Stack";
 
 

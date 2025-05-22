@@ -45,7 +45,7 @@ const GroupList = ({ navigation, user }) => {
       style={styles.itemContainer}
       onPress={() => navigation.navigate('GroupChat', { groupId: item.id })}
     >
-      <Image source={require('../../assets/bmw.jpeg')} style={styles.avatar} />
+      <Image source={require('../../assets/icon.png')} style={styles.avatar} />
       <View style={styles.textContainer}>
         <View style={styles.headerRow}>
           <Text style={styles.groupName}>{item.name}</Text>
@@ -59,7 +59,7 @@ const GroupList = ({ navigation, user }) => {
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <View style={styles.profileContainer}>
-          <Image source={require('../../assets/bmw.jpeg')} style={styles.profileAvatar} />
+          <Image source={require('../../assets/icon.png')} style={styles.profileAvatar} />
         </View>
         <Text style={styles.headerTitle}>Commshare Groups</Text>
         <TouchableOpacity
@@ -100,8 +100,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingVertical:Theme.sizes.xs,
-    paddingHorizontal:Theme.sizes.md,
+    paddingVertical: Theme.sizes.xs,
+    paddingHorizontal: Theme.sizes.md,
     borderBottomWidth: 1,
     borderBottomColor: '#eee',
     backgroundColor: '#f8f8f8',
@@ -113,15 +113,15 @@ const styles = StyleSheet.create({
   profileAvatar: {
     width: 36,
     height: 36,
-    borderRadius:Theme.sizes.xl,
-    marginRight:Theme.sizes.xs,
+    borderRadius: Theme.sizes.xl,
+    marginRight: Theme.sizes.xs,
   },
   profileName: {
     fontSize: Theme.sizes.lg,
     fontWeight: '500',
   },
   headerTitle: {
-    fontSize:Theme.sizes.xl,
+    fontSize: Theme.sizes.xl,
     fontWeight: 'bold',
   },
   createBtn: {
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: Theme.sizes.xs,
     borderWidth: 1,
     borderColor: '#ccc',
-    borderRadius:Theme.sizes.xs,
+    borderRadius: Theme.sizes.xs,
     backgroundColor: '#fafafa',
   },
   searchIcon: {
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
   },
   itemContainer: {
     flexDirection: 'row',
-    paddingVertical:Theme.sizes.md,
+    paddingVertical: Theme.sizes.md,
     paddingHorizontal: Theme.sizes.xxs,
     borderBottomWidth: 1,
     borderBottomColor: '#f0f0f0',
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     borderRadius: Theme.sizes.xxl,
-    marginRight:Theme.sizes.md,
+    marginRight: Theme.sizes.md,
   },
   textContainer: {
     flex: 1,

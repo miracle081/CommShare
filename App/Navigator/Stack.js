@@ -1,4 +1,4 @@
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { HomeScreen } from '../Screens/HomeScreen';
 import { CreateEstate } from '../Screens/CreateEstate';
@@ -6,7 +6,7 @@ import { CreatedEstates } from '../Screens/CreatedEstates';
 import { Profile } from '../Screens/Profile';
 import { EditProfile } from '../Screens/EditProfile';
 
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 export function StackNavigator() {
     return (
         <NavigationContainer>

@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList, Image } from 'react-native';
 import { Theme } from "../Components/Theme";
-import { FontAwesome } from '@expo/vector-icons';
-import { MaterialIcons } from '@expo/vector-icons';
+import { FontAwesome, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { Profile } from './Profile';
 import GroupList from './GroupList';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 const recentTransactions = [
     {
@@ -119,6 +119,41 @@ function Home({ navigation }) {
         </View>
     );
 };
+
+
+const Tab = createBottomTabNavigator();
+export function HomeScreen() {
+    return (
+        <Tab.Navigator
+            screenOptions={({ route }) => ({
+                tabBarIcon: ({ focused, color }) => {
+                    let iconName;
+
+                    if (route.name === 'Home') {
+                        iconName = focused ? 'home' : 'home-outline';
+                    } else if (route.name === 'Assets') {
+                        iconName = focused ? 'diamond' : 'diamond-outline';
+                    } else if (route.name === 'PeerToPeer') {
+                        iconName = focused ? 'swap-horizontal' : 'swap-horizontal-outline';
+                    } else if (route.name === 'ShareUnit') {
+                        iconName = focused ? 'bar-chart' : 'bar-chart-outline';
+                    } else if (route.name === 'Profile') {
+                        iconName = focused ? 'person' : 'person-outline';
+                    }
+
+                    return <Ionicons name={iconName} size={28} color={color} />;
+                },
+                tabBarActiveTintColor: Theme.colors.primary,
+                tabBarInactiveTintColor: Theme.colors.gray,
+                headerShown: false,
+            })}
+        >
+            <Tab.Screen name="Home" component={Home} />
+            <Tab.Screen name="Estates" component={GroupList} />
+            <Tab.Screen name="Profile" component={Profile} />
+        </Tab.Navigator>
+    )
+}
 
 const styles = StyleSheet.create({
     container: {
@@ -285,12 +320,3 @@ const styles = StyleSheet.create({
         color: Theme.colors.text2,
     },
 });
-
-const Tab = createBottomTabNavigator();
-export function HomeScreen() {
-    <Tab.Navigator screenOptions={{ headerShown: false }}>
-        <Tab.Screen name="Home" component={Home} />
-        <Tab.Screen name="Estates" component={GroupList} />
-        <Tab.Screen name="Profile" component={Profile} />
-    </Tab.Navigator>
-}
