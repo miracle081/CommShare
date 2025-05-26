@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList, Image } from 'react-native';
 import { Theme } from "../Components/Theme";
 import { FontAwesome, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { Profile } from './Profile';
 import GroupList from './GroupList';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { AppContext } from '../Components/globalVariables';
 
 const recentTransactions = [
     {
@@ -39,16 +40,18 @@ const totalAmount = "₦1,156,800,400";
 const joinedEstates = 3;
 
 function Home({ navigation }) {
+    const { userUID, userInfo } = useContext(AppContext)
+
     return (
         <View style={styles.container}>
             <View style={styles.header}>
                 <View style={styles.profileContainer}>
                     <Image
-                        source={{ uri: 'https://randomuser.me/api/portraits/men/1.jpg' }}
+                        source={require("../../assets/bg.jpg")}
                         style={styles.profileImage}
                     />
                     <View>
-                        <Text style={styles.greetingText}>Hi, {username}</Text>
+                        <Text style={styles.greetingText}>Hi, {userInfo.firstname} {userInfo.lastname}</Text>
                         <Text style={styles.welcomeText}>Welcome to Commshare</Text>
                     </View>
                 </View>
@@ -72,7 +75,7 @@ function Home({ navigation }) {
                 </View>
             </TouchableOpacity>
 
-            <TouchableOpacity style={[styles.card, { marginTop: 10 }]} onPress={() => navigation.navigate('CreatedEstates')}>
+            <TouchableOpacity style={[styles.card, { marginTop: 10 }]} onPress={() => navigation.navigate('CreatedEstates', { location: "Kubwa, NYSC" })}>
                 <View style={styles.cardContent}>
                     <View>
                         <Text style={styles.cardTitle}>Created Estate Groups</Text>

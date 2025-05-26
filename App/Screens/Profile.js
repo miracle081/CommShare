@@ -80,15 +80,15 @@ export function Profile() {
                             height={170}
                             autoPlay={true}
                             data={carouselLinks}
-                            style={styles.carousel}
+                            // style={}
                             scrollAnimationDuration={2000}
-                            renderItem={({ item }) => (
-                                <Image
-                                    style={{ height: 170, width: "100%", borderRadius: 15 }}
-                                    source={{ uri: item }}
-                                // defaultSource={require("../../assets/slide4.png")}
-                                />
-                            )}
+                            renderItem={({ item }) => {
+                                return (
+                                    <Image source={{ uri: item }}
+                                        style={{ width: "100%", height: 170, borderRadius: 15 }}
+                                    />
+                                )
+                            }}
                         />
                     </View>
 
@@ -101,15 +101,16 @@ export function Profile() {
                 <Modal
                     visible={visibility}
                     animationType='slide'
-                    transparent
+                    // style={}
+                    transparent={true}
                 >
-                    <View style={{ backgroundColor: "#000000ac", flex: 1, }}>
+                    <View style={{ flex: 1, backgroundColor: "#000000c8" }}>
                         <View style={{ flex: 1 }}></View>
-                        <View style={{ backgroundColor: "#ffffff", padding: 20, paddingBottom: 30, borderTopRightRadius: 20, borderTopLeftRadius: 20 }}>
-                            <Text>Log Out</Text>
-                            <Text>Are you sure you want to log out of this app?</Text>
+                        <View style={{ backgroundColor: "#ffffffc8", padding: 20, paddingBottom: 40, borderTopLeftRadius: 20, borderTopRightRadius: 20 }}>
+                            <Text style={{ textAlign: "center", fontSize: 25 }}>Log out!</Text>
+                            <Text style={{ textAlign: "center" }}>Are you sure you want to log out?</Text>
                             <AppButton onPress={() => setVisibility(false)}
-                                style={{ marginTop: 50, borderWidth: 1, borderColor: Theme.colors.red }}
+                                style={{ marginTop: 20, borderWidth: 1, borderColor: Theme.colors.red }}
                                 textColor={Theme.colors.red}
                                 buttonColor={"transparent"}>Yes</AppButton>
                         </View>

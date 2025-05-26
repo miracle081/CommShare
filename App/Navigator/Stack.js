@@ -6,6 +6,7 @@ import { CreatedEstates } from '../Screens/CreatedEstates';
 import { Profile } from '../Screens/Profile';
 import { EditProfile } from '../Screens/EditProfile';
 import { Estate } from '../Screens/Estate';
+import { LogIn } from '../Screens/LogIn';
 
 const Stack = createNativeStackNavigator();
 export function StackNavigator() {
@@ -18,6 +19,7 @@ export function StackNavigator() {
                 <Stack.Screen name="Profile" component={Profile} />
                 <Stack.Screen name="EditProfile" component={EditProfile} />
                 <Stack.Screen name="Estate" component={Estate} />
+                <Stack.Screen name="LogIn" component={LogIn} />
             </Stack.Navigator>
         </NavigationContainer>
     )

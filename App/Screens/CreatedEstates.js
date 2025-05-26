@@ -7,7 +7,11 @@ import { FontAwesome } from '@expo/vector-icons';
 
 const yourEstateGroups = []; // { id: '1', name: 'Sunrise Apartments', members: 24 }
 
-export function CreatedEstates({ navigation }) {
+export function CreatedEstates({ navigation, route }) {
+  const location = route.params
+  console.log(JSON.stringify(route, null, 2));
+
+
   return (
     <View style={styles.container}>
       {yourEstateGroups.length > 0 ? (
@@ -46,7 +50,7 @@ export function CreatedEstates({ navigation }) {
             color={Theme.colors.text2}
             style={styles.emptyIcon}
           />
-          <Text style={styles.emptyTitle}>No Created communities</Text>
+          <Text style={styles.emptyTitle}>No Created communities in {location.location}</Text>
           <TouchableOpacity
             style={styles.mainButton}
             onPress={() => navigation.navigate('CreateEstate')}
