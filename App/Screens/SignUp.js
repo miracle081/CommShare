@@ -2,6 +2,9 @@ import { Alert, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, Vie
 import React from 'react'
 import { Theme } from '../Components/Theme'
 import { Formik } from 'formik'
+import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { auth } from '../Firebase/settings'
+import { errorMessage } from '../Components/formatErrorMessage'
 
 export function SignUp({ navigation }) {
     return (
@@ -13,8 +16,15 @@ export function SignUp({ navigation }) {
                 <Formik
                     initialValues={{ firstname: "", lastname: "", email: "", password: "", confirmPassword: "" }}
                     onSubmit={(values) => {
-                        console.log(values)
-                        Alert.alert("Sign Up", "Sign up functionality is not implemented yet.")
+                        // console.log(values)
+                        createUserWithEmailAndPassword(auth, values.email, values.password)
+                            .then(() => {
+                                navigation.replace("HomeScreen");
+                            })
+                            .catch((error) => {
+                                console.error("Error signing up:", error);
+                                Alert.alert("Sign Up Error", errorMessage(error.code));
+                            });
                     }}
                 >
                     {({ handleChange, handleSubmit, values }) => (
@@ -26,7 +36,7 @@ export function SignUp({ navigation }) {
                                 autoCapitalize="words"
                                 autoCorrect={false}
                                 onChangeText={handleChange("firstname")}
-                                value={values.name}
+                                value={values.firstname}
                             />
                             <TextInput
                                 style={styles.input}
@@ -35,7 +45,7 @@ export function SignUp({ navigation }) {
                                 autoCapitalize="words"
                                 autoCorrect={false}
                                 onChangeText={handleChange("lastname")}
-                                value={values.name}
+                                value={values.lastname}
                             />
 
                             <TextInput
