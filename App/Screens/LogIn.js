@@ -1,74 +1,82 @@
-import { Alert, SafeAreaView, StatusBar, StyleSheet, Text, TextInput, View } from 'react-native'
-import React, { useContext, } from 'react'
-import { Theme } from '../Components/Theme';
-import { Button, } from 'react-native-paper';
-import { Formik, } from 'formik';
-import * as yup from "yup"
+import { Alert, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
+import React from 'react'
+import { Theme } from '../Components/Theme'
+import { Formik } from 'formik'
+import * as Yup from 'yup'
 
-
-// const validation = yup.object({
-//     email: yup.string().email().required(),
-//     password: yup.string().min(8).max(20).required()
-// })
+const validation = Yup.object({
+    email: Yup.string().email().required(),
+    password: Yup.string().min(6).max(30).required()
+})
 
 export function LogIn({ navigation }) {
-
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>
-            <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
+            <View style={styles.content}>
+                <Text style={styles.title}>Welcome Back</Text>
+                <Text style={styles.subtitle}>Sign in to continue</Text>
+
                 <Formik
                     initialValues={{ email: "", password: "" }}
-                    onSubmit={(value) => {
-                        console.log(value);
+                    onSubmit={(values) => {
+                        console.log(values)
                         Alert.alert("Login", "Login functionality is not implemented yet.")
                     }}
+                    validationSchema={validation}
                 >
-                    {(prop) => {
-                        return (
-                            <View style={{ flex: 1, justifyContent: "center", }}>
-                                <Text style={{ fontSize: 35, textAlign: "center", fontFamily: Theme.fonts.text600 }}>LogIn</Text>
-                                <View style={styles.label}>
-                                    <Text style={{ fontFamily: Theme.fonts.text500 }}>Email:</Text>
-                                    <TextInput
-                                        placeholderTextColor={"gray"}
-                                        style={styles.input}
-                                        autoCapitalize='none'
-                                        autoCorrect={false}
-                                        onChangeText={prop.handleChange("email")}
-                                        value={prop.values.email}
-                                    />
-                                    {/* <Text style={{ fontSize: 13, color: Theme.colors.red, fontFamily: Theme.fonts.text400 }}>{prop.touched.email && prop.errors.email}</Text> */}
-                                </View>
-                                <View>
-                                    <Text style={{ fontFamily: Theme.fonts.text500 }}>Password :</Text>
-                                    <TextInput
-                                        placeholderTextColor={"gray"}
-                                        style={styles.input}
-                                        autoCapitalize='none'
-                                        autoComplete='off'
-                                        autoCorrect={false}
-                                        secureTextEntry={true}
-                                        keyboardType='default'
-                                        onChangeText={prop.handleChange("password")}
-                                        value={prop.values.password}
-                                    />
-                                    {/* <Text style={{ fontSize: 13, color: Theme.colors.red, fontFamily: Theme.fonts.text400 }}>{prop.touched.password && prop.errors.password}</Text> */}
-                                </View>
-                                <Button mode='text' style={{ fontSize: 12, alignSelf: "flex-end" }} onPress={() => { navigation.navigate("ForgotPassword") }}>Forgot Password?</Button>
-
-                                <Button onPress={prop.handleSubmit}
-                                    mode='contained-tonal'
-                                    style={{ marginVertical: 15 }}
-                                    buttonColor={Theme.colors.primary + 30}
-                                > Log In</Button>
-
-                                <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
-                                    <Text style={{ fontSize: 15, marginVertical: 30, fontFamily: Theme.fonts.text300 }}>Im a new user</Text>
-                                    <Button mode='text' onPress={() => { navigation.navigate("SignUp") }}>Sign Up</Button>
-                                </View>
+                    {({ handleChange, handleSubmit, handleBlur, values, errors, touched }) => (
+                        <View style={styles.form}>
+                            <View style={styles.inputContainer}>
+                                <TextInput
+                                    style={styles.input}
+                                    placeholder="Email"
+                                    placeholderTextColor={Theme.colors.text2}
+                                    autoCapitalize="none"
+                                    autoCorrect={false}
+                                    onChangeText={handleChange("email")}
+                                    onBlur={handleBlur("email")}
+                                    value={values.email}
+                                />
+                                <Text style={{ color: Theme.colors.red }}>{touched.email && errors.email}</Text>
                             </View>
-                        )
-                    }}
+
+                            <View style={styles.inputContainer}>
+                                <TextInput
+                                    style={styles.input}
+                                    placeholder="Password"
+                                    placeholderTextColor={Theme.colors.text2}
+                                    autoCapitalize="none"
+                                    autoCorrect={false}
+                                    secureTextEntry
+                                    onChangeText={handleChange("password")}
+                                    onBlur={handleBlur("password")}
+                                    value={values.password}
+                                />
+                                <Text style={{ color: Theme.colors.red }}>{touched.password && errors.password}</Text>
+                            </View>
+
+                            <TouchableOpacity
+                                style={styles.forgotButton}
+                                onPress={() => navigation.navigate("ForgotPassword")}
+                            >
+                                <Text style={styles.forgotText}>Forgot Password?</Text>
+                            </TouchableOpacity>
+
+                            <TouchableOpacity
+                                style={styles.loginButton}
+                                onPress={handleSubmit}
+                            >
+                                <Text style={styles.loginButtonText}>Log In</Text>
+                            </TouchableOpacity>
+
+                            <View style={styles.signupContainer}>
+                                <Text style={styles.signupText}>Don't have an account? </Text>
+                                <TouchableOpacity onPress={() => navigation.navigate("SignUp")}>
+                                    <Text style={styles.signupLink}>Sign Up</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    )}
                 </Formik>
             </View>
         </SafeAreaView>
@@ -78,21 +86,77 @@ export function LogIn({ navigation }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 15,
-        marginTop: StatusBar.currentHeight,
-        backgroundColor: "#ffffff00",
+        backgroundColor: Theme.colors.bg,
+    },
+    content: {
+        flex: 1,
+        padding: Theme.sizes.padding * 1.5,
+        justifyContent: 'center',
+    },
+    title: {
+        fontSize: Theme.sizes.xxl * 1.4,
+        fontFamily: Theme.fonts.text700,
+        color: Theme.colors.text1,
+        textAlign: 'center',
+        marginBottom: Theme.sizes.xs,
+    },
+    subtitle: {
+        fontSize: Theme.sizes.lg,
+        fontFamily: Theme.fonts.text400,
+        color: Theme.colors.text2,
+        textAlign: 'center',
+        marginBottom: Theme.sizes.padding * 2,
+    },
+    form: {
+        gap: Theme.sizes.lg,
+    },
+    inputContainer: {
+        marginBottom: Theme.sizes.sm,
     },
     input: {
-        borderColor: Theme.colors.primary,
         borderWidth: 1,
-        padding: 10,
-        paddingHorizontal: 15,
-        borderRadius: 30,
-        fontSize: 15,
-        marginTop: 10
-
+        borderColor: Theme.colors.line,
+        borderRadius: Theme.sizes.borderRadius * 1.5,
+        padding: Theme.sizes.padding,
+        fontSize: Theme.sizes.lg,
+        fontFamily: Theme.fonts.text400,
+        backgroundColor: Theme.colors.layer,
     },
-    label: {
-        marginBottom: 7
-    }
+    forgotButton: {
+        alignSelf: 'flex-end',
+        marginTop: -Theme.sizes.sm,
+    },
+    forgotText: {
+        fontSize: Theme.sizes.md,
+        fontFamily: Theme.fonts.text500,
+        color: Theme.colors.primary,
+    },
+    loginButton: {
+        backgroundColor: Theme.colors.primary,
+        borderRadius: Theme.sizes.borderRadius * 1.5,
+        padding: Theme.sizes.padding,
+        alignItems: 'center',
+        marginTop: Theme.sizes.lg,
+    },
+    loginButtonText: {
+        fontSize: Theme.sizes.lg,
+        fontFamily: Theme.fonts.text600,
+        color: Theme.colors.bg,
+    },
+    signupContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: Theme.sizes.xl,
+    },
+    signupText: {
+        fontSize: Theme.sizes.md,
+        fontFamily: Theme.fonts.text400,
+        color: Theme.colors.text2,
+    },
+    signupLink: {
+        fontSize: Theme.sizes.md,
+        fontFamily: Theme.fonts.text600,
+        color: Theme.colors.primary,
+    },
 })
