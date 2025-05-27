@@ -22,7 +22,7 @@ export function SignUp({ navigation }) {
                                 navigation.replace("HomeScreen");
                             })
                             .catch((error) => {
-                                console.error("Error signing up:", error);
+                                console.log("Error signing up:", error);
                                 Alert.alert("Sign Up Error", errorMessage(error.code));
                             });
                     }}
