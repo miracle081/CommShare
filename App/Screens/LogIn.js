@@ -1,5 +1,5 @@
 import { Alert, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import React, { useContext } from 'react'
 import { Theme } from '../Components/Theme'
 import { Formik } from 'formik'
 import * as Yup from 'yup'
@@ -7,6 +7,7 @@ import { signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '../Firebase/settings'
 import { errorMessage } from '../Components/formatErrorMessage'
 import { ActivityIndicator } from 'react-native-paper'
+import { AppContext } from '../Components/globalVariables'
 
 const validation = Yup.object({
     email: Yup.string().email().required(),
@@ -14,6 +15,8 @@ const validation = Yup.object({
 })
 
 export function LogIn({ navigation }) {
+    const { setUserUID, setPreloader, setUserInfo } = useContext(AppContext)
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.content}>
@@ -23,14 +26,17 @@ export function LogIn({ navigation }) {
                 <Formik
                     initialValues={{ email: "", password: "" }}
                     onSubmit={(values) => {
-                        // console.log(values)
+                        setPreloader(true)
                         signInWithEmailAndPassword(auth, values.email, values.password)
                             .then((data) => {
-                                console.log(data.user.uid);
+                                const { uid } = data.user;
+                                setUserUID(uid);
+                                setPreloader(false)
                                 navigation.replace("HomeScreen");
                             })
                             .catch((error) => {
                                 console.log("Error signing up:", error);
+                                setPreloader(false)
                                 Alert.alert("Sign Up Error", errorMessage(error.code));
                             });
                     }}

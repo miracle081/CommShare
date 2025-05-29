@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity, ScrollView, SafeAreaView, TextInput, Modal, Dimensions } from 'react-native';
 import { Theme } from '../Components/Theme';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { faAddressBook, faComment, faGear, faLanguage, faLocation, faLock, faPenToSquare, faRetweet, faSquarePlus, faThumbsUp, faUser, faUserXmark } from "@fortawesome/free-solid-svg-icons";
 import { AppButton } from '../Components/AppButton';
 import Carousel from 'react-native-reanimated-carousel';
+import { AppContext } from '../Components/globalVariables';
 
 
 const carouselLinks = [
@@ -17,6 +18,8 @@ const carouselLinks = [
 const { width, height } = Dimensions.get("screen")
 
 export function Profile() {
+    const { userUID, userInfo } = useContext(AppContext)
+
     const [visibility, setVisibility] = useState(false)
 
 
@@ -25,15 +28,15 @@ export function Profile() {
             <ScrollView contentContainerStyle={styles.container}>
                 <View style={[styles.header, { backgroundColor: Theme.colors.primary }]}>
                     <Image source={{ uri: 'https://i.imgur.com/R66g1Pe.jpg' }} style={styles.avatar} />
-                    <Text style={styles.username}>username@email.com</Text>
+                    <Text style={styles.username}>{userInfo.email}</Text>
                 </View>
 
                 <View style={{ padding: 20 }}>
                     <View style={styles.infoBox}>
-                        <Text style={styles.infoText}><Text style={styles.label}>Full Name:</Text> John Doe</Text>
-                        <Text style={styles.infoText}><Text style={styles.label}>Phone:</Text> +123456789</Text>
-                        <Text style={styles.infoText}><Text style={styles.label}>Email:</Text> username@email.com</Text>
-                        <Text style={styles.infoText}><Text style={styles.label}>Address:</Text> 123 Street, City</Text>
+                        <Text style={styles.infoText}><Text style={styles.label}>Full Name:</Text> {userInfo.firstname} {userInfo.lastname}</Text>
+                        <Text style={styles.infoText}><Text style={styles.label}>Phone:</Text> {userInfo.phone || "-"}</Text>
+                        <Text style={styles.infoText}><Text style={styles.label}>Email:</Text> {userInfo.email}</Text>
+                        <Text style={styles.infoText}><Text style={styles.label}>Address:</Text> {userInfo.address || "-"}</Text>
                     </View>
 
                     <View style={[styles.iconRow, { marginTop: 20 }]}>

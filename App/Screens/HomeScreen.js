@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList, Image } from 'react-native';
 import { Theme } from "../Components/Theme";
 import { FontAwesome, Ionicons, MaterialIcons } from '@expo/vector-icons';
@@ -6,6 +6,8 @@ import { Profile } from './Profile';
 import GroupList from './GroupList';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { AppContext } from '../Components/globalVariables';
+import { doc, getDoc, onSnapshot } from 'firebase/firestore';
+import { db } from '../Firebase/settings';
 
 const recentTransactions = [
     {
@@ -40,7 +42,20 @@ const totalAmount = "₦1,156,800,400";
 const joinedEstates = 3;
 
 function Home({ navigation }) {
-    const { userUID, userInfo } = useContext(AppContext)
+    const { userUID, userInfo, setUserInfo } = useContext(AppContext)
+
+    useEffect(() => {
+        // getDoc(doc(db, "users", userUID))
+        //     .then(user => {
+        //         setUserInfo(user.data())
+        //     })
+
+        onSnapshot(doc(db, "users", userUID), (user) => {
+            setUserInfo(user.data())
+        })
+    }, []);
+
+
 
     return (
         <View style={styles.container}>

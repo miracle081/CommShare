@@ -6,7 +6,7 @@ export function AppProvider({ children }) {
     const [userInfo, setUserInfo] = useState({ firstname: "Mark", lastname: "David", email: "john@gmail.com", image: null });
     const [estates, setEstates] = useState([]);
     const [estateGroups, setEstateGroups] = useState([]);
-    const [userUID, setUserUID] = useState("42DS64GJG86GG9SFH8SN0G");
+    const [userUID, setUserUID] = useState("");
     const [preloader, setPreloader] = useState(false);
 
 
