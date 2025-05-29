@@ -1,12 +1,16 @@
 import { Alert, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
-import React from 'react'
+import React, { useContext } from 'react'
 import { Theme } from '../Components/Theme'
 import { Formik } from 'formik'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
-import { auth } from '../Firebase/settings'
+import { auth, db } from '../Firebase/settings'
 import { errorMessage } from '../Components/formatErrorMessage'
+import { doc, setDoc } from 'firebase/firestore'
+import { AppContext } from '../Components/globalVariables'
 
 export function SignUp({ navigation }) {
+    const { setPreloader, setUserUID } = useContext(AppContext)
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.content}>
@@ -17,11 +21,33 @@ export function SignUp({ navigation }) {
                     initialValues={{ firstname: "", lastname: "", email: "", password: "", confirmPassword: "" }}
                     onSubmit={(values) => {
                         // console.log(values)
+                        setPreloader(true)
                         createUserWithEmailAndPassword(auth, values.email, values.password)
-                            .then(() => {
-                                navigation.replace("HomeScreen");
+                            .then((data) => {
+                                const { uid } = data.user;
+                                // addDoc
+                                setDoc(doc(db, "users", uid), {
+                                    firstname: values.firstname,
+                                    lastname: values.lastname,
+                                    email: values.email,
+                                    image: null,
+                                    phone: null,
+                                    createdAt: new Date().getTime(),
+                                    balance: 0,
+                                    bio: "",
+                                    role: "user",
+                                }).then(() => {
+                                    setPreloader(false)
+                                    setUserUID(uid)
+                                    navigation.replace("HomeScreen");
+                                }).catch((error) => {
+                                    setPreloader(false)
+                                    console.log("Error signing up:", error);
+                                    Alert.alert("Sign Up Error", errorMessage(error.code));
+                                });
                             })
                             .catch((error) => {
+                                setPreloader(false)
                                 console.log("Error signing up:", error);
                                 Alert.alert("Sign Up Error", errorMessage(error.code));
                             });

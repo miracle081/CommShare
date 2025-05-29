@@ -6,6 +6,7 @@ import * as Yup from 'yup'
 import { signInWithEmailAndPassword } from 'firebase/auth'
 import { auth } from '../Firebase/settings'
 import { errorMessage } from '../Components/formatErrorMessage'
+import { ActivityIndicator } from 'react-native-paper'
 
 const validation = Yup.object({
     email: Yup.string().email().required(),

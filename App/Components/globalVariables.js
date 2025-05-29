@@ -7,6 +7,8 @@ export function AppProvider({ children }) {
     const [estates, setEstates] = useState([]);
     const [estateGroups, setEstateGroups] = useState([]);
     const [userUID, setUserUID] = useState("42DS64GJG86GG9SFH8SN0G");
+    const [preloader, setPreloader] = useState(false);
+
 
     return (
         <AppContext.Provider value={{
@@ -14,6 +16,7 @@ export function AppProvider({ children }) {
             estates, setEstates,
             estateGroups, setEstateGroups,
             userUID, setUserUID,
+            preloader, setPreloader
         }}>
             {children}
         </AppContext.Provider>
