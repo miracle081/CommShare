@@ -8,6 +8,7 @@ import * as Font from "expo-font";
 import { StackNavigator } from "./App/Navigator/Stack";
 import { AppProvider } from "./App/Components/globalVariables";
 import { Preloader } from "./App/Components/Preloader";
+import { RootSiblingParent } from "react-native-root-siblings";
 
 
 // LogBox.ignoreLogs(["ViewPropTypes will be removed from React Native, along with all other PropTypes. We recommend that you migrate away from PropTypes and switch to a type system like TypeScript. If you need to continue using ViewPropTypes, migrate to the 'deprecated-react-native-prop-types' package."])
@@ -50,9 +51,11 @@ export default function App() {
   }
 
   return (
-    <AppProvider>
-      <StackNavigator />
-      <Preloader />
-    </AppProvider>
+    <RootSiblingParent>
+      <AppProvider>
+        <StackNavigator />
+        <Preloader />
+      </AppProvider>
+    </RootSiblingParent>
   );
 }

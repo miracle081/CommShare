@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   View,
   Text,
@@ -11,6 +11,8 @@ import {
 } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { Theme } from '../Components/Theme';
+import { AppContext } from '../Components/globalVariables';
+import { formatTimeAgo } from '../Components/formatTimeAgo';
 
 // Sample data for Commshare groups
 const groups = [
@@ -37,19 +39,20 @@ const groups = [
 ];
 
 const GroupList = ({ navigation, user }) => {
+  const { userUID, userInfo, setUserInfo, createdEstates } = useContext(AppContext);
   const [searchQuery, setSearchQuery] = useState('');
 
 
   const renderItem = ({ item }) => (
     <TouchableOpacity
       style={styles.itemContainer}
-      onPress={() => navigation.navigate('Estate', { groupId: item.id })}
+      onPress={() => navigation.navigate('Estate', { docID: item.docID })}
     >
-      <Image source={require('../../assets/icon.png')} style={styles.avatar} />
+      <Image source={item?.image ? { uri: item.image } : require('../../assets/icon.png')} style={styles.avatar} />
       <View style={styles.textContainer}>
         <View style={styles.headerRow}>
           <Text style={styles.groupName}>{item.name}</Text>
-          <Text style={styles.timestamp}>{item.timestamp}</Text>
+          <Text style={styles.timestamp}>{formatTimeAgo(item.createdAt)}</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -59,12 +62,12 @@ const GroupList = ({ navigation, user }) => {
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <View style={styles.profileContainer}>
-          <Image source={require('../../assets/icon.png')} style={styles.profileAvatar} />
+          <Image source={userInfo?.image ? { uri: userInfo.image } : require('../../assets/icon.png')} style={styles.profileAvatar} />
         </View>
         <Text style={styles.headerTitle}>Commshare Groups</Text>
         <TouchableOpacity
           style={styles.createBtn}
-          onPress={() => navigation.navigate('CreateGroup')}
+          onPress={() => navigation.navigate('CreateEstate')}
         >
           <FontAwesome name="plus-circle" size={28} />
         </TouchableOpacity>
@@ -82,7 +85,7 @@ const GroupList = ({ navigation, user }) => {
       </View>
 
       <FlatList
-        data={groups}
+        data={createdEstates}
         keyExtractor={(item) => item.id}
         renderItem={renderItem}
         contentContainerStyle={styles.listContent}

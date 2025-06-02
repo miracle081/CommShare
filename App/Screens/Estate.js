@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
     SafeAreaView,
     TouchableOpacity,
@@ -11,10 +11,17 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { Theme } from "../Components/Theme";
+import { AppContext } from "../Components/globalVariables";
 
 const { width, height } = Dimensions.get("screen")
 
-export function Estate() {
+export function Estate({ navigation, route }) {
+    const { userUID, createdEstates } = useContext(AppContext);
+    const estateID = route?.params?.docID
+
+    const estate = createdEstates.find(item => item.docID == estateID)
+
+
     const communityName = "RockFace Estate";
     const options = [
         { id: "1", title: "Contributions", description: "View and contribute funds", icon: "hand-holding-usd" },// view balance, payment plans, account details and pay in, only admin can pay out
@@ -81,8 +88,8 @@ export function Estate() {
         <SafeAreaView style={styles.container}>
             {/* Header */}
             <View style={styles.headerContainer}>
-                <Text style={styles.header}>{communityName}</Text>
-                <Image source={require("../../assets/icon.png")} style={styles.img} />
+                <Text style={styles.header}>{estate.name}</Text>
+                <Image source={estate.image ? { uri: estate.image } : require("../../assets/icon.png")} style={styles.img} />
             </View>
 
             {/* Option Cards */}
@@ -158,8 +165,8 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     header: {
-        fontSize: Theme.sizes.xxl,
-        fontWeight: "400",
+        fontSize: Theme.sizes.xl,
+        fontFamily: Theme.fonts.text600
     },
     img: {
         width: 50,
