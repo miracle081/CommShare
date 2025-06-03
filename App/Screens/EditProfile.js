@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
     View,
     Text,
@@ -16,8 +16,10 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { Theme } from "../Components/Theme";
+import { AppContext } from "../Components/globalVariables";
 
 export function EditProfile({ navigation }) {
+    const { userUID, userInfo, } = useContext(AppContext);
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [mobile, setMobile] = useState("");
@@ -58,14 +60,8 @@ export function EditProfile({ navigation }) {
                         source={{ uri: TopBackGroundUri }}
                         style={styles.header}
                     >
-                        <TouchableOpacity
-                            onPress={() => navigation.goBack()}
-                            style={styles.backIcon}
-                        >
-                            <Icon name="arrow-left" size={24} color={Theme.colors.yellow} />
-                        </TouchableOpacity>
 
-                        <Image source={{ uri: profilePicUri }} style={styles.profilePic} />
+                        <Image source={userInfo?.image ? { uri: userInfo.image } : require('../../assets/user.png')} style={styles.profilePic} />
                         <TouchableOpacity
                             style={styles.editIcon}
                             onPress={() => Alert.alert("Edit Profile Picture")}

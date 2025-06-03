@@ -62,7 +62,7 @@ const GroupList = ({ navigation, user }) => {
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <View style={styles.profileContainer}>
-          <Image source={userInfo?.image ? { uri: userInfo.image } : require('../../assets/icon.png')} style={styles.profileAvatar} />
+          <Image source={userInfo?.image ? { uri: userInfo.image } : require('../../assets/user.png')} style={styles.profileAvatar} />
         </View>
         <Text style={styles.headerTitle}>Commshare Groups</Text>
         <TouchableOpacity

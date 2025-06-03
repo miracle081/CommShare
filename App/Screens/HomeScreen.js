@@ -75,7 +75,7 @@ function Home({ navigation }) {
             <View style={styles.header}>
                 <View style={styles.profileContainer}>
                     <Image
-                        source={require("../../assets/bg.jpg")}
+                        source={userInfo?.image ? { uri: userInfo.image } : require('../../assets/user.png')}
                         style={styles.profileImage}
                     />
                     <View>

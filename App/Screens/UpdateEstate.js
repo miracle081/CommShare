@@ -13,11 +13,12 @@ import {
 } from "react-native"
 import { Theme } from "../Components/Theme";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { db } from "../Firebase/settings";
 import { AppContext } from "../Components/globalVariables";
 import { ToastApp } from "../Components/Toast";
 import { errorMessage } from "../Components/formatErrorMessage";
+import AntDesign from '@expo/vector-icons/AntDesign';
 
 export function UpdateEstate({ navigation, route }) {
     const { userUID, setPreloader, createdEstates } = useContext(AppContext)
@@ -58,6 +59,35 @@ export function UpdateEstate({ navigation, route }) {
             });
     };
 
+    function handleDelete() {
+        Alert.alert(
+            "Delete Estate!",
+            "Are you sure you want to delete this estate? This action cannot be undone.",
+            [
+                { text: "Cancel", style: "cancel" },
+                {
+                    text: "Delete", style: "destructive", onPress: () => {
+                        setPreloader(true)
+                        deleteDoc(doc(db, "estates", estateID))
+                            .then(() => {
+                                ToastApp("Estate deleted successfully.");
+                                setPreloader(false)
+                                // navigation.goBack();
+                                // navigation.goBack();
+
+                                // navigation.pop(2) // Go back two screens to return to the estate list
+                                navigation.navigate("HomeScreen", { screen: "Estates" })
+                            }).catch((error) => {
+                                setPreloader(false)
+                                console.log("Error deleting estate:", error);
+                                Alert.alert("Delete Error", errorMessage(error.code));
+                            });
+                    }
+                }
+            ]
+        )
+    }
+
     return (
         <ScrollView style={{ backgroundColor: "white", flex: 1 }} contentContainerStyle={{ flex: 1 }}>
             <KeyboardAvoidingView
@@ -65,6 +95,11 @@ export function UpdateEstate({ navigation, route }) {
                 behavior={Platform.OS === "ios" ? "padding" : "height"}
             >
                 <Text style={styles.headerText}>Update Your Estate</Text>
+
+                <TouchableOpacity onPress={handleDelete} style={styles.delete}>
+                    <AntDesign name="delete" size={25} color={Theme.colors.red} />
+                </TouchableOpacity>
+
                 <View style={styles.form}>
                     <Text style={styles.label}>Estate Name *</Text>
                     <TextInput
@@ -118,6 +153,16 @@ const styles = StyleSheet.create({
         height: "100%",
 
     },
+    delete: {
+        position: "absolute",
+        top: 10,
+        right: 10,
+        zIndex: 1,
+        backgroundColor: "#ffffff99",
+        padding: 10,
+        borderRadius: 50,
+    },
+
     header: {
         justifyContent: "center",
         alignItems: "center",

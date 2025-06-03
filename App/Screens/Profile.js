@@ -27,7 +27,7 @@ export function Profile({ navigation }) {
         <SafeAreaView style={{ flex: 1, backgroundColor: Theme.colors.primary }}>
             <ScrollView contentContainerStyle={styles.container}>
                 <View style={[styles.header, { backgroundColor: Theme.colors.primary }]}>
-                    <Image source={{ uri: 'https://i.imgur.com/R66g1Pe.jpg' }} style={styles.avatar} />
+                    <Image source={userInfo?.image ? { uri: userInfo.image } : require('../../assets/user.png')} style={styles.avatar} />
                     <Text style={styles.username}>{userInfo.email}</Text>
                 </View>
 

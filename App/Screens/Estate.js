@@ -12,6 +12,8 @@ import {
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { Theme } from "../Components/Theme";
 import { AppContext } from "../Components/globalVariables";
+import AntDesign from '@expo/vector-icons/AntDesign';
+
 
 const { width, height } = Dimensions.get("screen")
 
@@ -24,13 +26,14 @@ export function Estate({ navigation, route }) {
 
     const communityName = "RockFace Estate";
     const options = [
-        { id: "1", title: "Contributions", description: "View and contribute funds", icon: "hand-holding-usd" },// view balance, payment plans, account details and pay in, only admin can pay out
-        { id: "2", title: "Fuel Pool", description: "Track diesel/fuel purchases", icon: "gas-pump" },
-        { id: "3", title: "Electricity", description: "Monitor Power costs", icon: "bolt" },
-        { id: "4", title: "Security", description: "See guard schedules", icon: "shield-alt" },
-        { id: "5", title: "Voting & Polls", description: "Vote on resource use", icon: "poll" },
-        { id: "6", title: "Chat", description: "Discuss with members", icon: "comments" }, //only admin can drop updates, view all list of esate member have a bell icon in front of name for reminding them 
-        { id: "7", title: "Dashboard", description: "View community metrics", icon: "chart-pie" },
+        { id: "0", title: "Users", description: "View and contribute funds", icon: "users", screen: "AddUsers" },// view balance, payment plans, account details and pay in, only admin can pay out
+        { id: "1", title: "Contributions", description: "View and contribute funds", icon: "hand-holding-usd", screen: null },// view balance, payment plans, account details and pay in, only admin can pay out
+        { id: "2", title: "Fuel Pool", description: "Track diesel/fuel purchases", icon: "gas-pump", screen: null },
+        { id: "3", title: "Electricity", description: "Monitor Power costs", icon: "bolt", screen: null },
+        { id: "4", title: "Security", description: "See guard schedules", icon: "shield-alt", screen: null },
+        { id: "5", title: "Voting & Polls", description: "Vote on resource use", icon: "poll", screen: null },
+        { id: "6", title: "Chat", description: "Discuss with members", icon: "comments", screen: null }, //only admin can drop updates, view all list of esate member have a bell icon in front of name for reminding them 
+        { id: "7", title: "Dashboard", description: "View community metrics", icon: "chart-pie", screen: null },
     ];
 
     const transactions = [
@@ -88,18 +91,21 @@ export function Estate({ navigation, route }) {
         <SafeAreaView style={styles.container}>
             {/* Header */}
             <View style={styles.headerContainer}>
-                <Text style={styles.header}>{estate.name}</Text>
-                <TouchableOpacity onPress={() => navigation.navigate("UpdateEstate", { docID: estate.docID })}>
-                    <Image source={estate.image ? { uri: estate.image } : require("../../assets/icon.png")} style={styles.img} />
+                <Text style={styles.header}>{estate?.name}</Text>
+                <TouchableOpacity onPress={() => navigation.navigate("UpdateEstate", { docID: estate?.docID })}>
+                    <Image source={estate?.image ? { uri: estate?.image } : require("../../assets/icon.png")} style={styles.img} />
+                    <View style={styles.editIcon}>
+                        <AntDesign name="edit" size={15} color="white" />
+                    </View>
                 </TouchableOpacity>
             </View>
 
             {/* Option Cards */}
             <View style={styles.optionContainer}>
                 {options.map((opt) => (
-                    <TouchableOpacity style={styles.card} key={opt.id}>
+                    <TouchableOpacity onPress={() => opt.screen && navigation.navigate(opt.screen, { estateID })} style={styles.card} key={opt.id}>
                         <View style={styles.iconWrapper}>
-                            <Icon name={opt.icon} size={24} color="#007bff" />
+                            <Icon name={opt.icon} size={24} color={Theme.colors.primary} />
                         </View>
                         <View style={styles.cardText}>
                             <Text style={styles.cardTitle}>{opt.title}</Text>
@@ -156,6 +162,14 @@ export function Estate({ navigation, route }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+    },
+    editIcon: {
+        position: "absolute",
+        bottom: 0,
+        left: -10,
+        backgroundColor: Theme.colors.primary,
+        borderRadius: 20,
+        padding: 5,
     },
     headerContainer: {
         flexDirection: "row",
