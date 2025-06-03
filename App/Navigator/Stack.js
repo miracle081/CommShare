@@ -9,6 +9,7 @@ import { Estate } from '../Screens/Estate';
 import { LogIn } from '../Screens/LogIn';
 import { SignUp } from '../Screens/SignUp';
 import { ForgotPassword } from '../Screens/ForgotPassword';
+import { UpdateEstate } from '../Screens/UpdateEstate';
 
 const Stack = createNativeStackNavigator();
 export function StackNavigator() {
@@ -24,6 +25,7 @@ export function StackNavigator() {
                 <Stack.Screen name="Profile" component={Profile} />
                 <Stack.Screen name="EditProfile" component={EditProfile} />
                 <Stack.Screen name="Estate" component={Estate} />
+                <Stack.Screen name="UpdateEstate" component={UpdateEstate} />
             </Stack.Navigator>
         </NavigationContainer>
     )

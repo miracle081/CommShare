@@ -86,7 +86,7 @@ const GroupList = ({ navigation, user }) => {
 
       <FlatList
         data={createdEstates}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.docID}
         renderItem={renderItem}
         contentContainerStyle={styles.listContent}
       />

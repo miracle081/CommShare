@@ -89,7 +89,9 @@ export function Estate({ navigation, route }) {
             {/* Header */}
             <View style={styles.headerContainer}>
                 <Text style={styles.header}>{estate.name}</Text>
-                <Image source={estate.image ? { uri: estate.image } : require("../../assets/icon.png")} style={styles.img} />
+                <TouchableOpacity onPress={() => navigation.navigate("UpdateEstate", { docID: estate.docID })}>
+                    <Image source={estate.image ? { uri: estate.image } : require("../../assets/icon.png")} style={styles.img} />
+                </TouchableOpacity>
             </View>
 
             {/* Option Cards */}

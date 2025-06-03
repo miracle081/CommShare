@@ -17,7 +17,7 @@ const carouselLinks = [
 
 const { width, height } = Dimensions.get("screen")
 
-export function Profile() {
+export function Profile({ navigation }) {
     const { userUID, userInfo } = useContext(AppContext)
 
     const [visibility, setVisibility] = useState(false)
@@ -45,7 +45,7 @@ export function Profile() {
                             <Text >Change Password</Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={styles.iconBox}>
+                        <TouchableOpacity onPress={() => navigation.navigate("EditProfile")} style={styles.iconBox}>
                             <FontAwesomeIcon icon={faPenToSquare} />
                             <Text style={styles.iconLabel}>Edit Profile</Text>
                         </TouchableOpacity>
