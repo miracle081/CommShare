@@ -112,7 +112,7 @@ export function Profile({ navigation }) {
                         <View style={{ backgroundColor: "#ffffffc8", padding: 20, paddingBottom: 40, borderTopLeftRadius: 20, borderTopRightRadius: 20 }}>
                             <Text style={{ textAlign: "center", fontSize: 25 }}>Log out!</Text>
                             <Text style={{ textAlign: "center" }}>Are you sure you want to log out?</Text>
-                            <AppButton onPress={() => setVisibility(false)}
+                            <AppButton onPress={() => { setVisibility(false); navigation.navigate("Login") }}
                                 style={{ marginTop: 20, borderWidth: 1, borderColor: Theme.colors.red }}
                                 textColor={Theme.colors.red}
                                 buttonColor={"transparent"}>Yes</AppButton>

@@ -18,19 +18,20 @@ export function RenderUser({ item }) {
 
     useEffect(() => {
         getDoc(doc(db, "users", item)).then((userDoc) => {
-            const userData = userDoc.data();
-            setUserData(userData);
+            setUserData(userDoc.data());
         }).catch((error) => {
             console.error("Error fetching user data:", error);
         });
-    }, [item.docID]);
+    }, [item]);
+
+
 
     return (
         <View style={styles.itemContainer}>
             <View style={styles.headerRow}>
-                <Image source={userData?.image ? { uri: userData.image } : require('../../assets/icon.png')} style={styles.avatar} />
+                <Image source={userData?.image ? { uri: userData?.image } : require('../../assets/icon.png')} style={styles.avatar} />
                 <View style={styles.textContainer}>
-                    <Text style={styles.groupName}>{userData.firsname} {userData.lastname}</Text>
+                    <Text style={styles.groupName}>{userData?.firsname} {userData?.lastname}</Text>
                     <Text style={styles.timestamp}>{userData?.bio || "-"}</Text>
                 </View>
             </View>

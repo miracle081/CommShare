@@ -15,8 +15,8 @@ import { AppContext } from '../Components/globalVariables';
 import { formatTimeAgo } from '../Components/formatTimeAgo';
 
 
-const GroupList = ({ navigation, user }) => {
-  const { userUID, userInfo, setUserInfo, createdEstates, setDocID } = useContext(AppContext);
+export const Communities = ({ navigation, }) => {
+  const { userUID, userInfo, setUserInfo, communities, setDocID } = useContext(AppContext);
   const [searchQuery, setSearchQuery] = useState('');
 
 
@@ -65,7 +65,7 @@ const GroupList = ({ navigation, user }) => {
       </View>
 
       <FlatList
-        data={createdEstates}
+        data={communities}
         keyExtractor={(item) => item.docID}
         renderItem={renderItem}
         contentContainerStyle={styles.listContent}
@@ -165,5 +165,3 @@ const styles = StyleSheet.create({
     marginTop: Theme.sizes.xxs,
   },
 });
-
-export default GroupList;

@@ -2,7 +2,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import { HomeScreen } from '../Screens/HomeScreen';
 import { CreateEstate } from '../Screens/CreateEstate';
-import { CreatedEstates } from '../Screens/CreatedEstates';
+import { Communities } from '../Screens/Communities';
 import { Profile } from '../Screens/Profile';
 import { EditProfile } from '../Screens/EditProfile';
 import { Estate } from '../Screens/Estate';
@@ -23,7 +23,7 @@ export function StackNavigator() {
                 <Stack.Screen name="SignUp" component={SignUp} options={{ title: "Sign Up" }} />
                 <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{ title: "Forgot Password" }} />
                 <Stack.Screen name="CreateEstate" component={CreateEstate} options={{ title: "Create An Estate" }} />
-                <Stack.Screen name="CreatedEstates" component={CreatedEstates} options={{ title: "Created Estates" }} />
+                <Stack.Screen name="Communities" component={Communities} options={{ title: "Created Estates" }} />
                 <Stack.Screen name="Profile" component={Profile} />
                 <Stack.Screen name="EditProfile" component={EditProfile} />
                 <Stack.Screen name="Estate" component={Estate} />

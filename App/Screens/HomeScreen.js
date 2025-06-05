@@ -42,7 +42,9 @@ const totalAmount = "₦1,156,800,400";
 const joinedEstates = 3;
 
 function Home({ navigation }) {
-    const { userUID, userInfo, setUserInfo, setCreatedEstates, createdEstates } = useContext(AppContext);
+    const { userUID, userInfo, setUserInfo, setCreatedEstates, createdEstates,
+        communities, setCommunities,
+    } = useContext(AppContext);
 
     function fetchCreatedEstates() {
         const ref = collection(db, "estates");
@@ -57,6 +59,19 @@ function Home({ navigation }) {
         })
     }
 
+    function fetchCommunities() {
+        const ref = collection(db, "estates");
+        const q = query(ref, where("users", "array-contains", userUID));
+        onSnapshot(q, (snapshot) => {
+            const qd = [];
+            snapshot.forEach(item => {
+                qd.push({ ...item.data(), docID: item.id })
+            })
+            // console.log(JSON.stringify(qd, null, 2));
+            setCommunities(qd);
+        })
+    }
+
     useEffect(() => {
         // getDoc(doc(db, "users", userUID))
         //     .then(user => {
@@ -67,6 +82,7 @@ function Home({ navigation }) {
             setUserInfo(user.data())
         })
         fetchCreatedEstates()
+        fetchCommunities()
     }, []);
 
 
@@ -117,12 +133,12 @@ function Home({ navigation }) {
                 </View>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => { navigation.navigate("CreatedEstates") }} style={styles.card}>
+            <TouchableOpacity onPress={() => { navigation.navigate("Communities") }} style={styles.card}>
                 <View style={styles.cardContent}>
                     <View>
                         <View style={styles.sectionTitleRow}>
                             <Text style={styles.cardTitle}>Your Communities</Text>
-                            <Text style={styles.estateCount}> ({joinedEstates})</Text>
+                            <Text style={styles.estateCount}> ({communities.length})</Text>
                         </View>
                         <Text style={styles.cardSubtext}>Tap to view details</Text>
                     </View>

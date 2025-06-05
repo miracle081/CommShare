@@ -55,7 +55,7 @@ export const Residents = ({ navigation, route }) => {
                 <View style={styles.profileContainer}>
                     <Image source={userInfo?.image ? { uri: userInfo.image } : require('../../assets/user.png')} style={styles.profileAvatar} />
                 </View>
-                <Text style={styles.headerTitle}>{estate.name}</Text>
+                <Text style={styles.headerTitle}>{estate?.name}</Text>
                 <TouchableOpacity
                     style={styles.createBtn}
                     onPress={() => navigation.navigate('AddUsers')}
@@ -76,7 +76,7 @@ export const Residents = ({ navigation, route }) => {
             </View>
 
             <FlatList
-                data={estate.users}
+                data={estate?.users}
                 keyExtractor={(item) => item.docID}
                 renderItem={({ item }) => <RenderUser item={item} />}
                 contentContainerStyle={styles.listContent}
