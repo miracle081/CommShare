@@ -39,14 +39,14 @@ const groups = [
 ];
 
 const GroupList = ({ navigation, user }) => {
-  const { userUID, userInfo, setUserInfo, createdEstates } = useContext(AppContext);
+  const { userUID, userInfo, setUserInfo, createdEstates, setDocID } = useContext(AppContext);
   const [searchQuery, setSearchQuery] = useState('');
 
 
   const renderItem = ({ item }) => (
     <TouchableOpacity
       style={styles.itemContainer}
-      onPress={() => navigation.navigate('Estate', { docID: item.docID })}
+      onPress={() => { setDocID(item.docID); navigation.navigate('Estate') }}
     >
       <Image source={item?.image ? { uri: item.image } : require('../../assets/icon.png')} style={styles.avatar} />
       <View style={styles.textContainer}>

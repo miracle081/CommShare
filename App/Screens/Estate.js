@@ -18,15 +18,14 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 const { width, height } = Dimensions.get("screen")
 
 export function Estate({ navigation, route }) {
-    const { userUID, createdEstates } = useContext(AppContext);
-    const estateID = route?.params?.docID
+    const { userUID, createdEstates, docID } = useContext(AppContext);
 
-    const estate = createdEstates.find(item => item.docID == estateID)
+    const estate = createdEstates.find(item => item.docID == docID)
 
 
     const communityName = "RockFace Estate";
     const options = [
-        { id: "0", title: "Users", description: "View and contribute funds", icon: "users", screen: "AddUsers" },// view balance, payment plans, account details and pay in, only admin can pay out
+        { id: "0", title: "Residents", description: "View and contribute funds", icon: "users", screen: "Residents" },// view balance, payment plans, account details and pay in, only admin can pay out
         { id: "1", title: "Contributions", description: "View and contribute funds", icon: "hand-holding-usd", screen: null },// view balance, payment plans, account details and pay in, only admin can pay out
         { id: "2", title: "Fuel Pool", description: "Track diesel/fuel purchases", icon: "gas-pump", screen: null },
         { id: "3", title: "Electricity", description: "Monitor Power costs", icon: "bolt", screen: null },
@@ -103,7 +102,7 @@ export function Estate({ navigation, route }) {
             {/* Option Cards */}
             <View style={styles.optionContainer}>
                 {options.map((opt) => (
-                    <TouchableOpacity onPress={() => opt.screen && navigation.navigate(opt.screen, { estateID })} style={styles.card} key={opt.id}>
+                    <TouchableOpacity onPress={() => opt.screen && navigation.navigate(opt.screen, { docID })} style={styles.card} key={opt.id}>
                         <View style={styles.iconWrapper}>
                             <Icon name={opt.icon} size={24} color={Theme.colors.primary} />
                         </View>

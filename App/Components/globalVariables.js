@@ -7,19 +7,20 @@ export function AppProvider({ children }) {
     const [estates, setEstates] = useState([]);
     const [estateGroups, setEstateGroups] = useState([]);
     const [createdEstates, setCreatedEstates] = useState([]);
+    const [docID, setDocID] = useState("");
     const [userUID, setUserUID] = useState("bThyJNVNURTZef9X2ChkLRZPJ2k2"); // Winner
     // const [userUID, setUserUID] = useState("wRb0XYo9b7hOXEeqnYMnZGBnpos1"); // MJ
     const [preloader, setPreloader] = useState(false);
 
 
-
     return (
         <AppContext.Provider value={{
-            userInfo, setUserInfo,
-            estates, setEstates,
-            estateGroups, setEstateGroups,
+            docID, setDocID,
             userUID, setUserUID,
+            estates, setEstates,
+            userInfo, setUserInfo,
             preloader, setPreloader,
+            estateGroups, setEstateGroups,
             createdEstates, setCreatedEstates
         }}>
             {children}

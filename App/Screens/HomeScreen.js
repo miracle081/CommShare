@@ -53,7 +53,7 @@ function Home({ navigation }) {
                 qd.push({ ...item.data(), docID: item.id })
             })
             // console.log(JSON.stringify(qd, null, 2));
-            setCreatedEstates(qd)
+            setCreatedEstates(qd.sort((a, b) => b.createdAt - a.createdAt));
         })
     }
 

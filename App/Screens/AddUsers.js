@@ -15,9 +15,9 @@ const validation = Yup.object({
 })
 
 export function AddUsers({ navigation, route }) {
-    const { setUserUID, setPreloader, createdEstates } = useContext(AppContext)
-    const estateID = route?.params?.estateID;
-    const estate = createdEstates.find(item => item.docID == estateID)
+    const { setUserUID, setPreloader, createdEstates, docID } = useContext(AppContext)
+
+    const estate = createdEstates.find(item => item.docID == docID)
 
     function fetchCreatedEstates(email) {
         setPreloader(true);
@@ -32,7 +32,7 @@ export function AddUsers({ navigation, route }) {
             setPreloader(false);
             if (qd.length > 0) {
                 // const user = qd[0];
-                // if (user.createdEstates.includes(estateID)) {
+                // if (user.createdEstates.includes(docID)) {
                 // Alert.alert("User Already Added", "This user is already part of this estate.");
                 // }
                 if (estate?.users?.includes(qd[0]?.userUID)) {
@@ -48,7 +48,7 @@ export function AddUsers({ navigation, route }) {
                                 text: "Add User",
                                 onPress: () => {
                                     setPreloader(true);
-                                    const estateRef = doc(db, "estates", estateID);
+                                    const estateRef = doc(db, "estates", docID);
                                     estate.users.push(qd[0]?.userUID);
                                     updateDoc(estateRef, { users: estate.users })
                                         .then(() => {
