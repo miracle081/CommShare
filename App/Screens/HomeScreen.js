@@ -91,11 +91,11 @@ function Home({ navigation }) {
             <View style={styles.header}>
                 <View style={styles.profileContainer}>
                     <Image
-                        source={userInfo?.image ? { uri: userInfo.image } : require('../../assets/user.png')}
+                        source={userInfo?.image ? { uri: userInfo?.image } : require('../../assets/user.png')}
                         style={styles.profileImage}
                     />
                     <View>
-                        <Text style={styles.greetingText}>Hi, {userInfo.firstname} {userInfo.lastname}</Text>
+                        <Text style={styles.greetingText}>Hi, {userInfo?.firstname} {userInfo?.lastname}</Text>
                         <Text style={styles.welcomeText}>Welcome to Commshare</Text>
                     </View>
                 </View>
