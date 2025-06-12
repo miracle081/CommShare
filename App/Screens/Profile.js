@@ -108,11 +108,11 @@ export function Profile({ navigation }) {
                     transparent={true}
                 >
                     <View style={{ flex: 1, backgroundColor: "#000000c8" }}>
-                        <View style={{ flex: 1 }}></View>
+                        <TouchableOpacity onPress={() => setVisibility(false)} style={{ flex: 1 }}></TouchableOpacity>
                         <View style={{ backgroundColor: "#ffffffc8", padding: 20, paddingBottom: 40, borderTopLeftRadius: 20, borderTopRightRadius: 20 }}>
                             <Text style={{ textAlign: "center", fontSize: 25 }}>Log out!</Text>
                             <Text style={{ textAlign: "center" }}>Are you sure you want to log out?</Text>
-                            <AppButton onPress={() => { setVisibility(false); navigation.navigate("Login") }}
+                            <AppButton onPress={() => { setVisibility(false); navigation.navigate("LogIn") }}
                                 style={{ marginTop: 20, borderWidth: 1, borderColor: Theme.colors.red }}
                                 textColor={Theme.colors.red}
                                 buttonColor={"transparent"}>Yes</AppButton>

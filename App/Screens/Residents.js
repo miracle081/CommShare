@@ -43,10 +43,8 @@ const groups = [
 ];
 
 export const Residents = ({ navigation, route }) => {
-    const { userUID, userInfo, setUserInfo, createdEstates, docID } = useContext(AppContext);
+    const { userUID, userInfo, estate, setUserInfo, createdEstates, docID } = useContext(AppContext);
     const [searchQuery, setSearchQuery] = useState('');
-
-    const estate = createdEstates.find(item => item.docID == docID)
 
 
     return (

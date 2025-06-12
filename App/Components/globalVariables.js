@@ -7,7 +7,9 @@ export function AppProvider({ children }) {
     const [estates, setEstates] = useState([]);
     const [estateGroups, setEstateGroups] = useState([]);
     const [createdEstates, setCreatedEstates] = useState([]);
+    const [estate, setEstate] = useState({});
     const [communities, setCommunities] = useState([]);
+    const [estateContributions, setEstateContributions] = useState([]);
     const [docID, setDocID] = useState("");
     // const [userUID, setUserUID] = useState("bThyJNVNURTZef9X2ChkLRZPJ2k2"); // Winner
     const [userUID, setUserUID] = useState("wRb0XYo9b7hOXEeqnYMnZGBnpos1"); // MJ
@@ -17,13 +19,15 @@ export function AppProvider({ children }) {
     return (
         <AppContext.Provider value={{
             docID, setDocID,
+            estate, setEstate,
             userUID, setUserUID,
             estates, setEstates,
             userInfo, setUserInfo,
             preloader, setPreloader,
             communities, setCommunities,
             estateGroups, setEstateGroups,
-            createdEstates, setCreatedEstates
+            createdEstates, setCreatedEstates,
+            estateContributions, setEstateContributions,
         }}>
             {children}
         </AppContext.Provider>

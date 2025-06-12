@@ -5,7 +5,7 @@ import { Theme } from '../Components/Theme';
 import { AppContext } from '../Components/globalVariables';
 import { formatTimeAgo } from '../Components/formatTimeAgo';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore';
 import { RenderUser } from '../Components/RenderUser';
 import { db } from '../Firebase/settings';
@@ -15,33 +15,8 @@ const { width, height } = Dimensions.get("screen")
 
 
 export const Contributions = ({ navigation, route }) => {
-    const { setPreloader, userUID, userInfo, setUserInfo, createdEstates, docID } = useContext(AppContext);
+    const { setPreloader, userUID, userInfo, estate, createdEstates, docID, estateContributions, } = useContext(AppContext);
     const [searchQuery, setSearchQuery] = useState('');
-    const [allContributions, setAllContributions] = useState([]);
-
-
-    const estate = createdEstates.find(item => item.docID == docID)
-
-    useEffect(() => {
-        setPreloader(true);
-
-        const ref = collection(db, "contributions");
-        const q = query(ref, where("estateID", "==", estate?.docID));
-        getDocs(q,).then((users) => {
-            const qd = [];
-            users.forEach(item => {
-                qd.push({ ...item.data(), userUID: item.id })
-            })
-            setPreloader(false);
-            setAllContributions(qd);
-        }).catch((error) => {
-            setPreloader(false);
-            Alert.alert("Error", "Failed to fetch contributions. Please try again later.");
-        }
-        );
-    }, [estate?.docID]);
-
-
 
     return (
         <SafeAreaView style={styles.container}>
@@ -68,7 +43,7 @@ export const Contributions = ({ navigation, route }) => {
             </View>
 
             <FlatList
-                data={allContributions}
+                data={estateContributions}
                 keyExtractor={(item) => item.docID}
                 renderItem={({ item }) => {
                     return (
@@ -78,9 +53,13 @@ export const Contributions = ({ navigation, route }) => {
                                     <Text style={styles.type}>{item.name}</Text>
                                     <Text numberOfLines={2} style={styles.date}>{item.description}</Text>
                                 </View>
-                                <TouchableOpacity onPress={() => navigation.navigate("Payment", { amount: item.amount })} style={{ padding: Theme.sizes.xxs, backgroundColor: Theme.colors.primary, borderRadius: 50, paddingHorizontal: Theme.sizes.xs }}>
-                                    <Text style={{ color: "white" }}>Pay</Text>
-                                </TouchableOpacity>
+                                {item?.paidUsers?.includes(userUID) ? <View style={{ padding: Theme.sizes.xxs, backgroundColor: Theme.colors.green, borderRadius: 50, paddingHorizontal: Theme.sizes.xs, flexDirection: "row", alignItems: "center", gap: Theme.sizes.xxs }}>
+                                    <Text style={{ color: "white" }}>Paid</Text>
+                                    <FontAwesomeIcon icon={faCheck} size={16} color="white" />
+                                </View> :
+                                    <TouchableOpacity onPress={() => navigation.navigate("Payment", { contribution: item })} style={{ padding: Theme.sizes.xxs, backgroundColor: Theme.colors.primary, borderRadius: 50, paddingHorizontal: Theme.sizes.xs }}>
+                                        <Text style={{ color: "white" }}>Pay</Text>
+                                    </TouchableOpacity>}
                             </View>
                             <View style={styles.details}>
                                 <Text style={styles.amount}>₦{formatNum(item.amount)}</Text>

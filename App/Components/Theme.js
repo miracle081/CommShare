@@ -15,7 +15,7 @@ export const Theme = {
         // primaryStrong: "#3B1C32",
         primaryDark: "#1A1A1D",
         green: "#22C55E",
-        greenDark: "#105832",
+        greenDark: "#146f3f",
         greenLight: "#B7E4C7",
         yellow: "#ffb702",
         red: "#EF4444",
