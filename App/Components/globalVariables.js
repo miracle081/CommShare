@@ -11,8 +11,9 @@ export function AppProvider({ children }) {
     const [communities, setCommunities] = useState([]);
     const [estateContributions, setEstateContributions] = useState([]);
     const [docID, setDocID] = useState("");
-    // const [userUID, setUserUID] = useState("bThyJNVNURTZef9X2ChkLRZPJ2k2"); // Winner
-    const [userUID, setUserUID] = useState("wRb0XYo9b7hOXEeqnYMnZGBnpos1"); // MJ
+    const [transactions, setTransactions] = useState([]);
+    const [userUID, setUserUID] = useState("iy8xvghOdYgCpOk9VKysvlEFpyF3"); // Winner
+    // const [userUID, setUserUID] = useState("TwZb1QAmUnQkTVGDfTiIlx6dbRK2"); // John
     const [preloader, setPreloader] = useState(false);
 
 
@@ -26,6 +27,7 @@ export function AppProvider({ children }) {
             preloader, setPreloader,
             communities, setCommunities,
             estateGroups, setEstateGroups,
+            transactions, setTransactions,
             createdEstates, setCreatedEstates,
             estateContributions, setEstateContributions,
         }}>

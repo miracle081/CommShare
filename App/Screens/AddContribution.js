@@ -18,8 +18,8 @@ import { ToastApp } from "../Components/Toast";
 import { errorMessage } from "../Components/formatErrorMessage";
 
 export function AddContribution({ navigation }) {
-    const { userUID, setPreloader, createdEstates, docID } = useContext(AppContext)
-    const estate = createdEstates.find(item => item.docID == docID);
+    const { userUID, setPreloader, createdEstates, docID, estate } = useContext(AppContext)
+    // const estate = createdEstates.find(item => item.docID == docID);
 
     const [conName, setConName] = useState("");
     const [amount, setAmount] = useState(0);
@@ -77,7 +77,7 @@ export function AddContribution({ navigation }) {
                 <Text style={styles.label}>Amount *</Text>
                 <TextInput
                     style={styles.input}
-                    value={amount}
+                    // value={`${amount}`}
                     onChangeText={setAmount}
                     placeholder="e.g., Lagos, Nigeria"
                 />

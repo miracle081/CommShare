@@ -8,33 +8,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { AppContext } from '../Components/globalVariables';
 import { collection, doc, getDoc, onSnapshot, query, where } from 'firebase/firestore';
 import { db } from '../Firebase/settings';
-
-const recentTransactions = [
-    {
-        id: '1',
-        estate: 'Green Valley Estate',
-        service: 'Security Fee',
-        amount: '₦15,000',
-        date: 'Today, 10:45 AM',
-        icon: 'shield'
-    },
-    {
-        id: '2',
-        estate: 'Sunrise Apartments',
-        service: 'Maintenance',
-        amount: '₦8,500',
-        date: 'Yesterday, 2:30 PM',
-        icon: 'wrench'
-    },
-    {
-        id: '3',
-        estate: 'Sunrise Apartments',
-        service: 'Electricity Bill',
-        amount: '₦12,000',
-        date: 'Oct 12, 9:15 AM',
-        icon: 'bolt'
-    },
-];
+import { dateTime } from '../Components/DateTime';
 
 const username = "John Doe";
 const totalTransactions = 24;
@@ -43,7 +17,7 @@ const joinedEstates = 3;
 
 function Home({ navigation }) {
     const { userUID, userInfo, setUserInfo, setCreatedEstates, createdEstates,
-        communities, setCommunities,
+        communities, setCommunities, transactions, setTransactions
     } = useContext(AppContext);
 
     function fetchCreatedEstates() {
@@ -72,6 +46,20 @@ function Home({ navigation }) {
         })
     }
 
+    function fetchTransaction() {
+        const ref = collection(db, "transactions");
+        const q = query(ref, where("user", "==", userUID));
+        onSnapshot(q, (transactions) => {
+            const qd = [];
+            transactions.forEach(item => {
+                qd.push({ ...item.data(), docID: item.id })
+            })
+            setTransactions(qd);
+        }, (error) => {
+            Alert.alert("Error", "Failed to fetch transactions. Please try again later.");
+        });
+    }
+
     useEffect(() => {
         // getDoc(doc(db, "users", userUID))
         //     .then(user => {
@@ -83,6 +71,7 @@ function Home({ navigation }) {
         })
         fetchCreatedEstates()
         fetchCommunities()
+        fetchTransaction()
     }, []);
 
 
@@ -149,20 +138,20 @@ function Home({ navigation }) {
             <Text style={[styles.sectionTitle, { marginTop: 20 }]}>Recent Transactions</Text>
             <FlatList
                 scrollEnabled={false}
-                data={recentTransactions}
+                data={transactions}
                 keyExtractor={(item) => item.id}
                 renderItem={({ item }) => (
                     <View style={[styles.card, styles.transactionCard]}>
                         <View style={styles.transactionIconContainer}>
-                            <FontAwesome name={item.icon} size={16} color={Theme.colors.primary} />
+                            <FontAwesome name={"shield"} size={16} color={Theme.colors.primary} />
                         </View>
                         <View style={styles.transactionDetails}>
-                            <Text style={styles.estateName}>{item.estate}</Text>
-                            <Text style={styles.serviceName}>{item.service}</Text>
+                            <Text style={styles.estateName}>{item.estateName}</Text>
+                            <Text style={styles.serviceName}>{item.title}</Text>
                         </View>
                         <View style={styles.transactionAmountDate}>
                             <Text style={styles.amountText}>{item.amount}</Text>
-                            <Text style={styles.dateText}>{item.date}</Text>
+                            <Text style={styles.dateText}>{dateTime(item.timestamp)}</Text>
                         </View>
                     </View>
                 )}

@@ -64,7 +64,7 @@ export function CreateEstate({ navigation }) {
     }
 
     const handleCreateEstate = async () => {
-        if (!estateName || !location || !datereg) {
+        if (!estateName || !location || !image) {
             Alert.alert("Missing Info", "Please fill in all required fields.");
             return;
         }

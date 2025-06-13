@@ -15,9 +15,9 @@ const validation = Yup.object({
 })
 
 export function AddUsers({ navigation, route }) {
-    const { setUserUID, setPreloader, createdEstates, docID } = useContext(AppContext)
+    const { setUserUID, setPreloader, createdEstates, docID, estate } = useContext(AppContext)
 
-    const estate = createdEstates.find(item => item.docID == docID)
+    // const estate = createdEstates.find(item => item.docID == docID)
 
     function fetchCreatedEstates(email) {
         setPreloader(true);
@@ -48,7 +48,7 @@ export function AddUsers({ navigation, route }) {
                                 text: "Add User",
                                 onPress: () => {
                                     setPreloader(true);
-                                    const estateRef = doc(db, "estates", docID);
+                                    const estateRef = doc(db, "estates", estate.docID);
                                     estate.users.push(qd[0]?.userUID);
                                     updateDoc(estateRef, { users: estate.users })
                                         .then(() => {

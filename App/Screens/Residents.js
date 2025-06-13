@@ -18,30 +18,6 @@ import { faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { doc, getDoc } from 'firebase/firestore';
 import { RenderUser } from '../Components/RenderUser';
 
-// Sample data for Commshare groups
-const groups = [
-    {
-        id: '1',
-        name: 'Estate Fuel Pool',
-        timestamp: '2:45 PM',
-    },
-    {
-        id: '2',
-        name: 'Security Watch',
-        timestamp: '1:15 PM',
-    },
-    {
-        id: '3',
-        name: 'Generator Maintenance',
-        timestamp: 'Yesterday',
-    },
-    {
-        id: '4',
-        name: 'Event Planning',
-        timestamp: 'May 18',
-    },
-];
-
 export const Residents = ({ navigation, route }) => {
     const { userUID, userInfo, estate, setUserInfo, createdEstates, docID } = useContext(AppContext);
     const [searchQuery, setSearchQuery] = useState('');
@@ -54,12 +30,14 @@ export const Residents = ({ navigation, route }) => {
                     <Image source={userInfo?.image ? { uri: userInfo.image } : require('../../assets/user.png')} style={styles.profileAvatar} />
                 </View>
                 <Text style={styles.headerTitle}>{estate?.name}</Text>
-                <TouchableOpacity
+                {estate.createdBy === userUID ? <TouchableOpacity
                     style={styles.createBtn}
                     onPress={() => navigation.navigate('AddUsers')}
                 >
                     <FontAwesome name="plus-circle" size={28} color={Theme.colors.primary} />
-                </TouchableOpacity>
+                </TouchableOpacity> :
+                    <View style={{ width: 60 }} />
+                }
             </View>
 
             {/* Search bar */}
@@ -75,8 +53,8 @@ export const Residents = ({ navigation, route }) => {
 
             <FlatList
                 data={estate?.users}
-                keyExtractor={(item) => item.docID}
-                renderItem={({ item }) => <RenderUser item={item} />}
+                keyExtractor={(item) => item}
+                renderItem={({ item }) => <RenderUser item={item} owner={estate.createdBy === userUID} />}
                 contentContainerStyle={styles.listContent}
             />
         </SafeAreaView>

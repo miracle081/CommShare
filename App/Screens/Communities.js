@@ -16,14 +16,14 @@ import { formatTimeAgo } from '../Components/formatTimeAgo';
 
 
 export const Communities = ({ navigation, }) => {
-  const { userUID, userInfo, setUserInfo, communities, setDocID } = useContext(AppContext);
+  const { userUID, userInfo, setUserInfo, communities, setEstate } = useContext(AppContext);
   const [searchQuery, setSearchQuery] = useState('');
 
 
   const renderItem = ({ item }) => (
     <TouchableOpacity
       style={styles.itemContainer}
-      onPress={() => { setDocID(item.docID); navigation.navigate('Estate') }}
+      onPress={() => { setEstate(item); navigation.navigate('Estate') }}
     >
       <Image source={item?.image ? { uri: item?.image } : require('../../assets/icon.png')} style={styles.avatar} />
       <View style={styles.textContainer}>

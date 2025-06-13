@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
     SafeAreaView,
     TouchableOpacity,
@@ -22,6 +22,7 @@ const { width, height } = Dimensions.get("screen")
 
 export function Estate({ navigation, route }) {
     const { userUID, setPreloader, setEstateContributions, estateContributions, estate } = useContext(AppContext);
+    const [transactions, setTransactions] = useState([]);
 
     const options = [
         { id: "0", title: "Residents", description: "View and contribute funds", icon: "users", screen: "Residents", count: estate.users.length },// view balance, payment plans, account details and pay in, only admin can pay out
@@ -34,45 +35,8 @@ export function Estate({ navigation, route }) {
         { id: "7", title: "Dashboard", description: "View community metrics", icon: "chart-pie", screen: null, count: 0 },
     ];
 
-    const transactions = [
-        {
-            id: "1",
-            transactionType: "Fuel Contribution",
-            transactionDate: "2025-05-10T14:32:00Z",
-            amount: 5000,
-            status: "Completed",
-        },
-        {
-            id: "2",
-            transactionType: "Electricity Top-Up",
-            transactionDate: "2025-05-08T09:15:00Z",
-            amount: 2500,
-            status: "Completed",
-        },
-        {
-            id: "3",
-            transactionType: "Security Levy",
-            transactionDate: "2025-05-05T18:45:00Z",
-            amount: 1500,
-            status: "Pending",
-        },
-        {
-            id: "4",
-            transactionType: "Maintenance Fund",
-            transactionDate: "2025-04-30T11:20:00Z",
-            amount: 3000,
-            status: "Failed",
-        },
-        {
-            id: "5",
-            transactionType: "Withdrawal Request",
-            transactionDate: "2025-04-28T16:00:00Z",
-            amount: 4000,
-            status: "Completed",
-        },
-    ];
 
-    useEffect(() => {
+    function fetchEstateContributions() {
         setPreloader(true);
 
         const ref = collection(db, "contributions");
@@ -88,7 +52,30 @@ export function Estate({ navigation, route }) {
             setPreloader(false);
             Alert.alert("Error", "Failed to fetch contributions. Please try again later.");
         });
+    }
+
+    function fetchEstateTransaction() {
+        const ref = collection(db, "transactions");
+        const q = query(ref, where("estateID", "==", estate?.docID));
+        onSnapshot(q, (transactions) => {
+            const qd = [];
+            transactions.forEach(item => {
+                qd.push({ ...item.data(), docID: item.id })
+            })
+            setTransactions(qd);
+        }, (error) => {
+            Alert.alert("Error", "Failed to fetch transactions. Please try again later.");
+        });
+    }
+
+
+    useEffect(() => {
+        if (estate?.docID) {
+            fetchEstateContributions();
+            fetchEstateTransaction();
+        }
     }, [estate?.docID]);
+
 
     const getStatusColor = (status) => {
         switch (status) {
@@ -152,7 +139,7 @@ export function Estate({ navigation, route }) {
                 >
                     {transactions.map((tran, index) => (
                         <View
-                            key={tran.id}
+                            key={tran.docID}
                             style={[
                                 styles.transactionCard,
                                 index === 0 && { marginLeft: 0 },
@@ -160,16 +147,12 @@ export function Estate({ navigation, route }) {
                             ]}
                         >
                             <View>
-                                <Text style={styles.type}>{tran.transactionType}</Text>
-                                <Text style={styles.date}>
-                                    {new Date(tran.transactionDate).toLocaleDateString()}
-                                </Text>
+                                <Text style={styles.type}>{tran.title}</Text>
+                                <Text style={styles.amount}>₦{tran.amount}</Text>
                             </View>
                             <View style={styles.details}>
-                                <Text style={styles.amount}>₦{tran.amount}</Text>
-                                <Text style={[styles.status, { color: getStatusColor(tran.status) }]}>
-                                    {tran.status}
-                                </Text>
+                                <Text style={[styles.status, { color: getStatusColor(tran.status) }]}>{tran.status}</Text>
+                                <Text style={styles.date}>{new Date(tran.timestamp).toLocaleDateString()}</Text>
                             </View>
                         </View>
                     ))}

@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "CommShare",
+    "name": "Commshare",
     "slug": "CommShare",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -20,10 +20,16 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "estate.commshare.app"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "62a9eb30-b681-43da-8c70-20dba99a4daa"
+      }
     }
   }
 }
